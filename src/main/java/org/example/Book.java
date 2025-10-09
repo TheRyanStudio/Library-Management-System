@@ -8,14 +8,14 @@ public class Book {
     Book(String title, String author){
         this.title = title;
         this.author = author;
-        this.status = "";
+        this.status = "Available";
     }
 
     public String getTitle() {
-        return null;
+        return title;
     }
 
     public String getStatus() {
-        return "";
+        return status;
     }
 }
