@@ -16,4 +16,9 @@ public class Collection {
     public void addBook(Book book){
         collection.add(book);
     }
+
+    Book getBook(int index){
+        return collection.get(index);
+    }
+
 }

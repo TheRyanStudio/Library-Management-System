@@ -8,7 +8,7 @@ public class InitializeLibrary {
         collection.addBook(new Book("To Kill a Mockingbird", "Harper Lee"));
         collection.addBook(new Book("1984", "George Orwell"));
         collection.addBook(new Book("Pride and Prejudice", "Jane Austen"));
-        collection.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald"));
+        collection.addBook(new Book("When Breath Becomes Air", "Paul Kalanithi"));
         collection.addBook(new Book("Moby Dick", "Herman Melville"));
         collection.addBook(new Book("War and Peace", "Leo Tolstoy"));
         collection.addBook(new Book("The Catcher in the Rye", "J.D. Salinger"));
