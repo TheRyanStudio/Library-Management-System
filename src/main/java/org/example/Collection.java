@@ -1,15 +1,19 @@
 package org.example;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class Collection {
-    HashSet<Book> collection;
+    ArrayList<Book> collection;
 
     public Collection(){
-        collection = new HashSet<>();
+        collection = new ArrayList<>();
     }
 
     public int getCollectionSize(){
-        return 0;
+        return collection.size();
+    }
+
+    public void addBook(Book book){
+        collection.add(book);
     }
 }
