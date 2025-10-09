@@ -11,18 +11,18 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check library collection size is 20")
-    void RESP_01_Test_01() {
+    void RESP_01_Test_1() {
         InitializeLibrary library = new InitializeLibrary();
-        Collection collection = library.initializeLibrary();
+        Collection collection = library.initializeBooks();
         int size = collection.getCollectionSize();
         assertEquals(20, size);
     }
 
     @Test
     @DisplayName("Check library collection for valid book - Great Gatsby")
-    void RESP_01_Test_02() {
+    void RESP_01_Test_2() {
         InitializeLibrary library = new InitializeLibrary();
-        Collection collection = library.initializeLibrary();
+        Collection collection = library.initializeBooks();
         Book book = collection.getBook(0);
         String title = book.getTitle();
         assertEquals("Great Gatsby",title);
@@ -30,11 +30,13 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check book status for available")
-    void RESP_01_Test_03(){
-    InitializeLibrary library = new InitializeLibrary();
-    Collection collection = library.initializeLibrary();
-    Book book = collection.getBook(0);
-    String status = book.getStatus();
+    void RESP_01_Test_3(){
+        InitializeLibrary library = new InitializeLibrary();
+        Collection collection = library.initializeBooks();
+        Book book = collection.getBook(0);
+        String status = book.getStatus();
         assertEquals("Available", status);
     }
+
+
 }

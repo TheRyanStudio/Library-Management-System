@@ -3,7 +3,7 @@ package org.example;
 public class InitializeLibrary {
     Collection collection = new Collection();
 
-    public Collection initializeLibrary(){
+    public Collection initializeBooks(){
         collection.addBook(new Book("Great Gatsby", "F. Scott FitzGerald"));
         collection.addBook(new Book("To Kill a Mockingbird", "Harper Lee"));
         collection.addBook(new Book("1984", "George Orwell"));
