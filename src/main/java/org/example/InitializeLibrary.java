@@ -2,6 +2,7 @@ package org.example;
 
 public class InitializeLibrary {
     Collection collection = new Collection();
+    AccountManager accounts = new AccountManager();
 
     public Collection initializeBooks(){
         collection.addBook(new Book("Great Gatsby", "F. Scott FitzGerald"));
@@ -26,6 +27,10 @@ public class InitializeLibrary {
         collection.addBook(new Book("The Picture of Dorian Gray", "Oscar Wilde"));
         return collection;
     }
+    public AccountManager initializeAccounts(){
+        return accounts;
+    }
+
 
 }
 
