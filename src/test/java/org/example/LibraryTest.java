@@ -54,8 +54,8 @@ public class LibraryTest {
     @DisplayName("Check account manager for valid account")
     void RESP_02_Test_2(){
         // Checks to make sure username and passwords are valid
-        assertFalse(accounts.getAccount(0).isValidUsername());
-        assertFalse(accounts.getAccount(0).isValidPassword());
+        assertTrue(accounts.getAccount(0).isValidUsername());
+        assertTrue(accounts.getAccount(0).isValidPassword());
     }
 
     @Test

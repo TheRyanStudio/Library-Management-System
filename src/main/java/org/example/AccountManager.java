@@ -8,10 +8,12 @@ public class AccountManager {
     public AccountManager(){accounts = new ArrayList<>();}
 
     public int getAccountSize(){
-        return 0;
+        return accounts.size();
     }
     Account getAccount(int index){
-        return null;
+        return accounts.get(index);
     }
+
+    public void addAccount(Account account){accounts.add(account);}
 
 }
