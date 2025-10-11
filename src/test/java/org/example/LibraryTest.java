@@ -19,7 +19,6 @@ public class LibraryTest {
         accounts = library.initializeAccounts();
     }
 
-
     @Test
     @DisplayName("Check library collection size is 20")
     void RESP_01_Test_1() {

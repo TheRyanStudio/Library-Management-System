@@ -16,6 +16,8 @@ public class LibrarySystemTest {
     void setUp(){
         InitializeLibrary library = new InitializeLibrary();
         system = new LibrarySystem();
+        AccountManager accounts = library.initializeAccounts();
+        system.setAccounts(accounts);
     }
 
     @Test
@@ -28,10 +30,10 @@ public class LibrarySystemTest {
     @Test
     @DisplayName("Check library system for invalid username and password")
     void RESP_03_Test_2(){
-        assertTrue(system.authenticate("", ""));
-        assertTrue(system.authenticate(null, null));
-        assertTrue(system.authenticate("wrongUsername", "wrongPassword"));
-        assertTrue(system.authenticate("Username1", "Password1")); // Test case-sensitive
+        assertFalse(system.authenticate("", ""));
+        assertFalse(system.authenticate(null, null));
+        assertFalse(system.authenticate("wrongUsername", "wrongPassword"));
+        assertFalse(system.authenticate("Username1", "Password1")); // Test case-sensitive
     }
 
     @Test

@@ -15,6 +15,14 @@ public class Account {
         borrowedBooks = new ArrayList<>();
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     public boolean isValidUsername() {
         return (username != null && !username.isEmpty());
     }

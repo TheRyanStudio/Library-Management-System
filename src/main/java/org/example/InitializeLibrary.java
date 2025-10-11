@@ -28,9 +28,9 @@ public class InitializeLibrary {
         return collection;
     }
     public AccountManager initializeAccounts(){
-        accounts.addAccount(new Account("account1", "password1"));
-        accounts.addAccount(new Account("account2", "password2"));
-        accounts.addAccount(new Account("account3", "password3"));
+        accounts.addAccount(new Account("username1", "password1"));
+        accounts.addAccount(new Account("username2", "password2"));
+        accounts.addAccount(new Account("username3", "password3"));
         return accounts;
     }
 
