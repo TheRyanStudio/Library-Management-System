@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 public class LibrarySystem {
 
+
     public void promptForPassword(PrintWriter output){
         output.print("Enter Username: ");
         output.flush();

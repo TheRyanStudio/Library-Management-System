@@ -23,17 +23,17 @@ public class LibrarySystemTest {
     @Test
     @DisplayName("Check library system for valid username and password")
     void RESP_03_Test_1(){
-        assertTrue(accounts.authenticate("username1", "password1")
-        );
+        Account authenticated = accounts.authenticate("username1", "password1");
+        assertNotNull(authenticated); // Method returns null with no matching account object
     }
 
     @Test
     @DisplayName("Check library system for invalid username and password")
     void RESP_03_Test_2(){
-        assertFalse(accounts.authenticate("", ""));
-        assertFalse(accounts.authenticate(null, null));
-        assertFalse(accounts.authenticate("wrongUsername", "wrongPassword"));
-        assertFalse(accounts.authenticate("Username1", "Password1")); // Test case-sensitive
+        assertNull(accounts.authenticate("", ""));
+        assertNull(accounts.authenticate(null, null));
+        assertNull(accounts.authenticate("wrongUsername", "wrongPassword"));
+        assertNull(accounts.authenticate("Username1", "Password1")); // Test case-sensitive
     }
 
     @Test
@@ -53,4 +53,5 @@ public class LibrarySystemTest {
         system.promptAuthenticationError(new PrintWriter(output));
         assertTrue(output.toString().contains("Authentication Failed."));
     }
+
     }
