@@ -45,4 +45,12 @@ public class LibrarySystemTest {
         assertTrue(output.toString().contains("Enter Username: "));
         assertTrue(output.toString().contains("Enter Password: "));
     }
-}
+
+    @Test
+    @DisplayName("Check library system for correct authentication error prompt")
+    void RESP_03_Test_4(){
+        StringWriter output = new StringWriter();
+        system.promptAuthenticationError(new PrintWriter(output));
+        assertTrue(output.toString().contains("Authentication Failed."));
+    }
+    }

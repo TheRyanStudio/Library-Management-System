@@ -12,4 +12,8 @@ public class LibrarySystem {
         output.print("Enter Password: ");
         output.flush();
     }
+    public void promptAuthenticationError(PrintWriter output){
+        output.print("");
+        output.flush();
+    }
 }
