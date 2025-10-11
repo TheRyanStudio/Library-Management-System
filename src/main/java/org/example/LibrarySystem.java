@@ -17,4 +17,7 @@ public class LibrarySystem {
         output.print("Authentication Failed.");
         output.flush();
     }
+    public boolean login(String username, String password){
+        return false;
+    }
 }

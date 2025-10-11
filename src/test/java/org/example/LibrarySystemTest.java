@@ -54,4 +54,12 @@ public class LibrarySystemTest {
         assertTrue(output.toString().contains("Authentication Failed."));
     }
 
+    @Test
+    @DisplayName("Check library system for login and session established")
+    void RESP_04_Test_1(){
+        assertTrue(system.login("username2", "password2"));
+    }
+
+
+
     }
