@@ -11,29 +11,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LibrarySystemTest {
     private LibrarySystem system;
+    private AccountManager accounts;
 
     @BeforeEach
     void setUp(){
         InitializeLibrary library = new InitializeLibrary();
         system = new LibrarySystem();
-        AccountManager accounts = library.initializeAccounts();
-        system.setAccounts(accounts);
+        accounts = library.getAccounts();
     }
 
     @Test
     @DisplayName("Check library system for valid username and password")
     void RESP_03_Test_1(){
-        assertTrue(system.authenticate("username1", "password1")
+        assertTrue(accounts.authenticate("username1", "password1")
         );
     }
 
     @Test
     @DisplayName("Check library system for invalid username and password")
     void RESP_03_Test_2(){
-        assertFalse(system.authenticate("", ""));
-        assertFalse(system.authenticate(null, null));
-        assertFalse(system.authenticate("wrongUsername", "wrongPassword"));
-        assertFalse(system.authenticate("Username1", "Password1")); // Test case-sensitive
+        assertFalse(accounts.authenticate("", ""));
+        assertFalse(accounts.authenticate(null, null));
+        assertFalse(accounts.authenticate("wrongUsername", "wrongPassword"));
+        assertFalse(accounts.authenticate("Username1", "Password1")); // Test case-sensitive
     }
 
     @Test

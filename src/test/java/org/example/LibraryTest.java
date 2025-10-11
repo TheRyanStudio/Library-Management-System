@@ -15,8 +15,8 @@ public class LibraryTest {
     @BeforeEach
     void setUp(){
         InitializeLibrary library = new InitializeLibrary();
-        collection = library.initializeBooks();
-        accounts = library.initializeAccounts();
+        collection = library.getCollection();
+        accounts = library.getAccounts();
     }
 
     @Test

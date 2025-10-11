@@ -1,10 +1,14 @@
 package org.example;
 
 public class InitializeLibrary {
-    Collection collection = new Collection();
-    AccountManager accounts = new AccountManager();
+    private Collection collection;
+    private AccountManager accounts;
 
-    public Collection initializeBooks(){
+    public InitializeLibrary(){
+        collection = new Collection();
+        accounts = new AccountManager();
+
+        //Initialize the collection of books
         collection.addBook(new Book("Great Gatsby", "F. Scott FitzGerald"));
         collection.addBook(new Book("To Kill a Mockingbird", "Harper Lee"));
         collection.addBook(new Book("1984", "George Orwell"));
@@ -25,15 +29,19 @@ public class InitializeLibrary {
         collection.addBook(new Book("The Lord of the Rings", "J.R.R. Tolkien"));
         collection.addBook(new Book("Anna Karenina", "Leo Tolstoy"));
         collection.addBook(new Book("The Picture of Dorian Gray", "Oscar Wilde"));
-        return collection;
-    }
-    public AccountManager initializeAccounts(){
+
+        // Initialize the accounts
         accounts.addAccount(new Account("username1", "password1"));
         accounts.addAccount(new Account("username2", "password2"));
         accounts.addAccount(new Account("username3", "password3"));
-        return accounts;
     }
 
+    public Collection getCollection() {
+        return collection;
+    }
 
+    public AccountManager getAccounts() {
+        return accounts;
+    }
 }
 
