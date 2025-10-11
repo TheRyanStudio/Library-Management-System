@@ -16,7 +16,7 @@ public class LibrarySystemTest {
     @BeforeEach
     void setUp(){
         InitializeLibrary library = new InitializeLibrary();
-        system = new LibrarySystem();
+        system = new LibrarySystem(accounts);
         accounts = library.getAccounts();
     }
 
@@ -54,9 +54,24 @@ public class LibrarySystemTest {
         assertTrue(output.toString().contains("Authentication Failed."));
     }
 
+    // Implemented a test stub to allow for independent testing of the login method
+    static class StubAccountManager extends AccountManager {
+        @Override
+        public Account authenticate(String username, String password){
+            if("username2".equals(username) && "password2".equals(password)){
+                return new Account(username, password);
+            }
+            return null;
+        }
+    }
+
     @Test
     @DisplayName("Check library system for login and session established")
     void RESP_04_Test_1(){
+        // Uses a stub authenticate method inside login
+        AccountManager stub = new StubAccountManager();
+        LibrarySystem system = new LibrarySystem(stub);
+
         assertTrue(system.login("username2", "password2"));
     }
 
