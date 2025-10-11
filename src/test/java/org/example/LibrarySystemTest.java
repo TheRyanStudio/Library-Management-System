@@ -28,7 +28,7 @@ public class LibrarySystemTest {
     }
 
     @Test
-    @DisplayName("Check library system for invalid username and password")
+    @DisplayName("Check account manager for invalid username and password")
     void RESP_03_Test_2(){
         assertNull(accounts.authenticate("", ""));
         assertNull(accounts.authenticate(null, null));
@@ -37,7 +37,7 @@ public class LibrarySystemTest {
     }
 
     @Test
-    @DisplayName("Check library system for username and password prompt")
+    @DisplayName("Check account manager for username and password prompt")
     void RESP_03_Test_3(){
         StringWriter output = new StringWriter();
         system.promptForUsername(new PrintWriter(output));
@@ -73,8 +73,7 @@ public class LibrarySystemTest {
         LibrarySystem system = new LibrarySystem(stub);
 
         assertTrue(system.login("username2", "password2"));
+        assertEquals("username2", system.getCurrAccount().getUsername());
     }
-
-
 
     }

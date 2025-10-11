@@ -27,5 +27,7 @@ public class LibrarySystem {
         currAccount = account;
         return account != null;
     }
-
+    public Account getCurrAccount(){
+        return currAccount;
+    }
 }
