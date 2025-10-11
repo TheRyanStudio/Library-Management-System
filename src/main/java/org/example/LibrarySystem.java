@@ -13,7 +13,7 @@ public class LibrarySystem {
         output.flush();
     }
     public void promptAuthenticationError(PrintWriter output){
-        output.print("");
+        output.print("Authentication Failed.");
         output.flush();
     }
 }
