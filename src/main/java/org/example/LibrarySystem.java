@@ -26,5 +26,7 @@ public class LibrarySystem {
         return currAccount;
     }
     public void promptOperations(PrintWriter output){
+        output.print("(1) Borrow a book. (2) Return a book. (3) Logout. ");
+        output.flush();
     }
 }
