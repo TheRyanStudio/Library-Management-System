@@ -6,17 +6,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryTest {
     private Collection collection;
     private AccountManager accounts;
+    private LibrarySystem system;
+    private Account testAccount;
 
     @BeforeEach
     void setUp(){
         InitializeLibrary library = new InitializeLibrary();
         collection = library.getCollection();
         accounts = library.getAccounts();
+        system = new LibrarySystem();
     }
 
     @Test
@@ -63,4 +69,48 @@ public class LibraryTest {
         // Checks an account for borrowed books
         assertEquals(0,accounts.getAccount(0).getBorrowedBooks().size());
     }
+
+    @Test
+    @DisplayName("Check library system for valid username and password")
+    void RESP_03_Test_1(){
+        Account authenticated = accounts.authenticate("username2", "password2");
+        assertNotNull(authenticated); // Method returns null with no matching account object
+    }
+
+    @Test
+    @DisplayName("Check account manager for invalid username and password")
+    void RESP_03_Test_2(){
+        assertNull(accounts.authenticate("", ""));
+        assertNull(accounts.authenticate(null, null));
+        assertNull(accounts.authenticate("wrongUsername", "wrongPassword"));
+        assertNull(accounts.authenticate("Username1", "Password1")); // Test case-sensitive
+    }
+
+    @Test
+    @DisplayName("Check account manager for username and password prompt")
+    void RESP_03_Test_3(){
+        StringWriter output = new StringWriter();
+        system.promptForUsername(new PrintWriter(output));
+        system.promptForPassword(new PrintWriter(output));
+        assertTrue(output.toString().contains("Enter Username: "));
+        assertTrue(output.toString().contains("Enter Password: "));
+    }
+
+    @Test
+    @DisplayName("Check library system for correct authentication error prompt")
+    void RESP_03_Test_4(){
+        StringWriter output = new StringWriter();
+        system.promptAuthenticationError(new PrintWriter(output));
+        assertTrue(output.toString().contains("Authentication Failed."));
+    }
+
+    @Test
+    @DisplayName("Check library system for session established")
+    void RESP_04_Test_1(){
+        testAccount = new Account("TestUsername", "TestPassword");
+        accounts.addAccount(testAccount);
+        assertNotNull(system.establishSession(testAccount));
+        assertEquals("TestUsername", system.getCurrAccount().getUsername());
+    }
+
 }

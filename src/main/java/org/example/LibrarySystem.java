@@ -3,12 +3,8 @@ package org.example;
 import java.io.PrintWriter;
 
 public class LibrarySystem {
-    private AccountManager accounts;
     private Account currAccount;
 
-    public LibrarySystem(AccountManager accounts){
-        this.accounts = accounts;
-    }
 
     public void promptForPassword(PrintWriter output){
         output.print("Enter Password: ");
@@ -22,10 +18,9 @@ public class LibrarySystem {
         output.print("Authentication Failed.");
         output.flush();
     }
-    public boolean login(String username, String password) {
-        Account account = accounts.authenticate(username, password);
+    public Account establishSession(Account account) {
         currAccount = account;
-        return account != null;
+        return currAccount;
     }
     public Account getCurrAccount(){
         return currAccount;
