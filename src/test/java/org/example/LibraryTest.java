@@ -120,5 +120,24 @@ public class LibraryTest {
         system.promptOperations(new PrintWriter(output));
         assertTrue(output.toString().contains("(1) Borrow a book. (2) Return a book. (3) Logout. "));
     }
+    @Test
+    @DisplayName("Check library system displays book collection")
+    void RESP_06_Test_1(){
+        StringWriter output = new StringWriter();
+        system.displayBorrowedBooks(new PrintWriter(output));
+        String result = output.toString();
 
+        //Testing that the display contains the 1st, 10th and 20th book
+        assertTrue(result.contains("1. Title: Great Gatsby"));
+        assertTrue(result.contains("Author: F. Scott FitzGerald"));
+        assertTrue(result.contains("Status: Available"));
+
+        assertTrue(result.contains("10. Title: Brave New World"));
+        assertTrue(result.contains("Author: Aldous Huxley"));
+        assertTrue(result.contains("Status: Available"));
+
+        assertTrue(result.contains("20. Title: The Picture of Dorian Gray"));
+        assertTrue(result.contains("Author: Oscar Wilde"));
+        assertTrue(result.contains("Status: Available"));
+    }
 }

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Collection {
@@ -20,5 +21,6 @@ public class Collection {
     Book getBook(int index){
         return collection.get(index);
     }
-
+    public void displayCollection(PrintWriter output){
+    }
 }
