@@ -113,4 +113,12 @@ public class LibraryTest {
         assertEquals("TestUsername", system.getCurrAccount().getUsername());
     }
 
+    @Test
+    @DisplayName("System presents operations")
+    void RESP_05_Test_1(){
+        StringWriter output = new StringWriter();
+        system.promptOperations(new PrintWriter(output));
+        assertTrue(output.toString().contains("(1) Borrow a book. (2) Return a book. (3) Logout. "));
+    }
+
 }

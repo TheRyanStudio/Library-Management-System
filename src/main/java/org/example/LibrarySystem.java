@@ -25,4 +25,6 @@ public class LibrarySystem {
     public Account getCurrAccount(){
         return currAccount;
     }
+    public void promptOperations(PrintWriter output){
+    }
 }
