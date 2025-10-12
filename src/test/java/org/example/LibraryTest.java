@@ -124,10 +124,10 @@ public class LibraryTest {
     @DisplayName("Check library system displays book collection")
     void RESP_06_Test_1(){
         StringWriter output = new StringWriter();
-        system.displayBorrowedBooks(new PrintWriter(output));
+        collection.displayCollection(new PrintWriter(output));
         String result = output.toString();
 
-        //Testing that the display contains the 1st, 10th and 20th book
+        // Testing that the display contains the 1st, 10th and 20th book
         assertTrue(result.contains("1. Title: Great Gatsby"));
         assertTrue(result.contains("Author: F. Scott FitzGerald"));
         assertTrue(result.contains("Status: Available"));

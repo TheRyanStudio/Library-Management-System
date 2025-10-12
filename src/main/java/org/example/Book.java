@@ -18,4 +18,8 @@ public class Book {
     public String getStatus() {
         return status;
     }
+
+    public String getAuthor() {
+        return author;
+    }
 }

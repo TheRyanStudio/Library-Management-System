@@ -22,5 +22,12 @@ public class Collection {
         return collection.get(index);
     }
     public void displayCollection(PrintWriter output){
+
+        // Iterates through and displays the collection of books
+        for (int i=0; i<collection.size(); i++) {
+            Book book = getBook(i);
+            output.print(i +1 + ". Title: " + book.getTitle() + "Author: " + book.getAuthor() + "Status: " + book.getStatus());
+        }
+        output.flush();
     }
 }
