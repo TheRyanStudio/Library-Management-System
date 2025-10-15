@@ -32,6 +32,7 @@ public class Collection {
     }
 
     public void promptBookConfirmation(Book book, PrintWriter output){
-
+        output.print("You selected " + book.getTitle() + " by " + book.getAuthor() + ". Enter (1) to proceed with borrowing. ");
+        output.flush();
     }
 }
