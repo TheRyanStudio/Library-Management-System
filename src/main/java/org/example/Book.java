@@ -20,8 +20,8 @@ public class Book {
         return title;
     }
 
-    public BookStatus getStatus() {
-        return status;
+    public String getStatus() {
+        return status.name();
     }
 
     void setStatus(BookStatus status){

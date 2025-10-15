@@ -45,7 +45,7 @@ public class LibraryTest {
     @ValueSource (ints = {0, 9, 19})
     @DisplayName("Check book status for available")
     void RESP_01_Test_3(int index){
-        assertEquals("Available", collection.getBook(index).getStatus());
+        assertEquals("AVAILABLE", collection.getBook(index).getStatus());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class LibraryTest {
     void RESP_07_Test_1(){
         StringWriter output = new StringWriter();
         Book newBook1 = new Book("Title1", "Author1");
-        collection.promptBookConfirmation(newBook1 ,new PrintWriter(output));
+        system.promptBookConfirmation(newBook1 ,new PrintWriter(output));
         assertTrue(output.toString().contains("You selected Title1 by Author1. Enter (1) to proceed with borrowing. "));
     }
 }
