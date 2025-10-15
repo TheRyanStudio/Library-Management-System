@@ -1,7 +1,6 @@
 package org.example;
 
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class LibrarySystem {
     private Account currAccount;
@@ -75,5 +74,7 @@ public class LibrarySystem {
     }
 
     public void displayBookCount(PrintWriter output){
+        output.print("Your current book count is " + currAccount.getBorrowedBooks().size() + ".");
+        output.flush();
     }
 }
