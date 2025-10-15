@@ -30,4 +30,8 @@ public class Collection {
         }
         output.flush();
     }
+
+    public void promptBookConfirmation(Book book, PrintWriter output){
+
+    }
 }

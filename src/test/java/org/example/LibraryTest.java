@@ -140,4 +140,15 @@ public class LibraryTest {
         assertTrue(result.contains("Author: Oscar Wilde"));
         assertTrue(result.contains("Status: Available"));
     }
+
+    @Test
+    @DisplayName("Check library system displays selected book and borrowing details")
+    void RESP_07_Test_1(){
+        StringWriter output = new StringWriter();
+        Book newBook1 = new Book("Title1", "Author1");
+        collection.promptBookConfirmation(newBook1 ,new PrintWriter(output));
+        assertTrue(output.toString().contains("You selected Title1 by Author1. Enter (1) to proceed with borrowing. "));
+    }
+
 }
+
