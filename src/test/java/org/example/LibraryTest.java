@@ -211,6 +211,24 @@ public class LibraryTest {
         assertTrue(output.toString().contains("You already have a hold on this book. "));
     }
 
+    @Test
+    @DisplayName("Check library system displays the number of borrowed books by the current user")
+    void RESP_10_Test_1() {
+
+        // Setup with test account and test borrowed books
+        testAccount = new Account("test", "test");
+        Book book1 = new Book("Title1", "Author1");
+        Book book2 = new Book("Title1", "Author1");
+        testAccount.addBorrowedBook(book1);
+        testAccount.addBorrowedBook(book2);
+
+        system.establishSession(testAccount);
+
+        StringWriter output = new StringWriter();
+        system.displayBookCount(new PrintWriter(output));
+
+        assertTrue(output.toString().contains("2"));
+    }
 
 
 }

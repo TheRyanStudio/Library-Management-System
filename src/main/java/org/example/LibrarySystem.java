@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class LibrarySystem {
     private Account currAccount;
@@ -55,7 +56,7 @@ public class LibrarySystem {
         return BorrowResult.BORROW_ALLOWED;
     }
 
-    // Messages for handling use case 2 extensions
+    // Messages for handling UC-02 extensions
     public void displayBorrowingMessages(BorrowResult result, PrintWriter output){
         switch (result){
             case ALREADY_ON_HOLD:
@@ -71,5 +72,8 @@ public class LibrarySystem {
                 break;
         }
         output.flush();
+    }
+
+    public void displayBookCount(PrintWriter output){
     }
 }
