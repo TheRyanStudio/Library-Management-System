@@ -130,15 +130,15 @@ public class LibraryTest {
         // Testing that the display contains the 1st, 10th and 20th book
         assertTrue(result.contains("1. Title: Great Gatsby"));
         assertTrue(result.contains("Author: F. Scott FitzGerald"));
-        assertTrue(result.contains("Status: Available"));
+        assertTrue(result.contains("Status: AVAILABLE"));
 
         assertTrue(result.contains("10. Title: Brave New World"));
         assertTrue(result.contains("Author: Aldous Huxley"));
-        assertTrue(result.contains("Status: Available"));
+        assertTrue(result.contains("Status: AVAILABLE"));
 
         assertTrue(result.contains("20. Title: The Picture of Dorian Gray"));
         assertTrue(result.contains("Author: Oscar Wilde"));
-        assertTrue(result.contains("Status: Available"));
+        assertTrue(result.contains("Status: AVAILABLE"));
     }
 
     @Test
@@ -149,6 +149,5 @@ public class LibraryTest {
         collection.promptBookConfirmation(newBook1 ,new PrintWriter(output));
         assertTrue(output.toString().contains("You selected Title1 by Author1. Enter (1) to proceed with borrowing. "));
     }
-
 }
 
