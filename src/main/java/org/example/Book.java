@@ -40,4 +40,9 @@ public class Book {
     public void addHold(Account account){
         holdQueue.add(account);
     }
+
+    // Checks to see if account is in holding queue
+    public boolean isAccountInQueue(Account account){
+        return holdQueue.contains(account);
+    }
 }

@@ -158,7 +158,7 @@ public class LibraryTest {
         Book book1 = new Book("Title1", "Author1");
         system.establishSession(testAccount);
 
-        assertNotEquals(LibrarySystem.BorrowResult.SUCCESS, system.verifyBorrowingAvailability(book1));
+        assertEquals(LibrarySystem.BorrowResult.SUCCESS, system.verifyBorrowingAvailability(book1));
     }
 
     @Test

@@ -37,4 +37,10 @@ public class Account {
     public void addBorrowedBook(Book book){
         borrowedBooks.add(book);
     }
+
+    // Checks to see if a book is in the borrowed list
+    public boolean isBookInList(Book book){
+        return borrowedBooks.contains(book);
+    }
+
 }
