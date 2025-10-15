@@ -152,13 +152,13 @@ public class LibraryTest {
     }
 
     @Test
-    @DisplayName("Verify borrowing result for success")
+    @DisplayName("Verify borrowing result for borrowing allowed")
     void RESP_08_Test_1() {
         testAccount = new Account("test1", "test2");
         Book book1 = new Book("Title1", "Author1");
         system.establishSession(testAccount);
 
-        assertEquals(LibrarySystem.BorrowResult.SUCCESS, system.verifyBorrowingAvailability(book1));
+        assertEquals(LibrarySystem.BorrowResult.BORROW_ALLOWED, system.verifyBorrowingAvailability(book1));
     }
 
     @Test

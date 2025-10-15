@@ -7,7 +7,7 @@ public class LibrarySystem {
 
     // Enum values to track the result of borrowing a book
     public enum BorrowResult {
-        SUCCESS, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
+        BORROW_ALLOWED, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
     }
 
     public void promptForPassword(PrintWriter output){
@@ -40,18 +40,18 @@ public class LibrarySystem {
 
     // Returns the corresponding borrowing book result
     public BorrowResult verifyBorrowingAvailability(Book book) {
-        // Check for max borrowed book size
-        if (currAccount.getBorrowedBooks().size() >= 3) {
-            return BorrowResult.MAX_BOOKS_REACHED;
-        }
         // Check for the current account already in the holding queue
         if (book.isAccountInQueue(currAccount)) {
             return BorrowResult.ALREADY_ON_HOLD;
+        }
+        // Check for max borrowed book size
+        if (currAccount.getBorrowedBooks().size() >= 3) {
+            return BorrowResult.MAX_BOOKS_REACHED;
         }
         // Check for the book already in the borrowers account
         if (currAccount.isBookInList(book)) {
             return BorrowResult.ALREADY_BORROWED;
         }
-        return BorrowResult.SUCCESS;
+        return BorrowResult.BORROW_ALLOWED;
     }
 }
