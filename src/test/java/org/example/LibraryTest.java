@@ -18,7 +18,7 @@ public class LibraryTest {
     private Account testAccount;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         InitializeLibrary library = new InitializeLibrary();
         collection = library.getCollection();
         accounts = library.getAccounts();
@@ -36,28 +36,28 @@ public class LibraryTest {
     @DisplayName("Check library collection for valid books")
     void RESP_01_Test_2() {
         // Testing for 1st, 10th and 20th book
-        assertEquals("Great Gatsby",collection.getBook(0).getTitle());
-        assertEquals("Brave New World",collection.getBook(9).getTitle());
-        assertEquals("The Picture of Dorian Gray",collection.getBook(19).getTitle());
+        assertEquals("Great Gatsby", collection.getBook(0).getTitle());
+        assertEquals("Brave New World", collection.getBook(9).getTitle());
+        assertEquals("The Picture of Dorian Gray", collection.getBook(19).getTitle());
     }
 
     @ParameterizedTest
-    @ValueSource (ints = {0, 9, 19})
+    @ValueSource(ints = {0, 9, 19})
     @DisplayName("Check book status for available")
-    void RESP_01_Test_3(int index){
+    void RESP_01_Test_3(int index) {
         assertEquals("AVAILABLE", collection.getBook(index).getStatus());
     }
 
     @Test
     @DisplayName("Check account manager for number of accounts")
-    void RESP_02_Test_1(){
+    void RESP_02_Test_1() {
         int size = accounts.getAccountSize();
-        assertEquals(3,size);
+        assertEquals(3, size);
     }
 
     @Test
     @DisplayName("Check account manager for valid account")
-    void RESP_02_Test_2(){
+    void RESP_02_Test_2() {
         // Checks to make sure username and passwords are valid
         assertTrue(accounts.getAccount(0).isValidUsername());
         assertTrue(accounts.getAccount(0).isValidPassword());
@@ -65,21 +65,21 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check account manager for borrowed books")
-    void RESP_02_Test_3(){
+    void RESP_02_Test_3() {
         // Checks an account for borrowed books
-        assertEquals(0,accounts.getAccount(0).getBorrowedBooks().size());
+        assertEquals(0, accounts.getAccount(0).getBorrowedBooks().size());
     }
 
     @Test
     @DisplayName("Check library system for valid username and password")
-    void RESP_03_Test_1(){
+    void RESP_03_Test_1() {
         Account authenticated = accounts.authenticate("username2", "password2");
         assertNotNull(authenticated); // Method returns null with no matching account object
     }
 
     @Test
     @DisplayName("Check account manager for invalid username and password")
-    void RESP_03_Test_2(){
+    void RESP_03_Test_2() {
         assertNull(accounts.authenticate("", ""));
         assertNull(accounts.authenticate(null, null));
         assertNull(accounts.authenticate("wrongUsername", "wrongPassword"));
@@ -88,7 +88,7 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check account manager for username and password prompt")
-    void RESP_03_Test_3(){
+    void RESP_03_Test_3() {
         StringWriter output = new StringWriter();
         system.promptForUsername(new PrintWriter(output));
         system.promptForPassword(new PrintWriter(output));
@@ -98,7 +98,7 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check library system for correct authentication error prompt")
-    void RESP_03_Test_4(){
+    void RESP_03_Test_4() {
         StringWriter output = new StringWriter();
         system.promptAuthenticationError(new PrintWriter(output));
         assertTrue(output.toString().contains("Authentication Failed."));
@@ -106,7 +106,7 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check library system for session established")
-    void RESP_04_Test_1(){
+    void RESP_04_Test_1() {
         testAccount = new Account("TestUsername", "TestPassword");
         accounts.addAccount(testAccount);
         assertNotNull(system.establishSession(testAccount));
@@ -115,14 +115,15 @@ public class LibraryTest {
 
     @Test
     @DisplayName("System presents operations")
-    void RESP_05_Test_1(){
+    void RESP_05_Test_1() {
         StringWriter output = new StringWriter();
         system.promptOperations(new PrintWriter(output));
         assertTrue(output.toString().contains("(1) Borrow a book. (2) Return a book. (3) Logout. "));
     }
+
     @Test
     @DisplayName("Check library system displays book collection")
-    void RESP_06_Test_1(){
+    void RESP_06_Test_1() {
         StringWriter output = new StringWriter();
         collection.displayCollection(new PrintWriter(output));
         String result = output.toString();
@@ -143,11 +144,61 @@ public class LibraryTest {
 
     @Test
     @DisplayName("Check library system displays selected book and borrowing details")
-    void RESP_07_Test_1(){
+    void RESP_07_Test_1() {
         StringWriter output = new StringWriter();
         Book newBook1 = new Book("Title1", "Author1");
-        system.promptBookConfirmation(newBook1 ,new PrintWriter(output));
+        system.promptBookConfirmation(newBook1, new PrintWriter(output));
         assertTrue(output.toString().contains("You selected Title1 by Author1. Enter (1) to proceed with borrowing. "));
     }
+
+    @Test
+    @DisplayName("Verify borrowing result for success")
+    void RESP_08_Test_1() {
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("Title1", "Author1");
+        system.establishSession(testAccount);
+
+        assertNotEquals(LibrarySystem.BorrowResult.SUCCESS, system.verifyBorrowingAvailability(book1));
+    }
+
+    @Test
+    @DisplayName("Verify borrowing result for book already on hold")
+    void RESP_08_Test_2() {
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("Title1", "Author1");
+        testAccount.addBorrowedBook(book1);
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.BorrowResult.ALREADY_BORROWED, system.verifyBorrowingAvailability(book1));
+    }
+
+    @Test
+    @DisplayName("Verify borrowing result for book already checked out")
+    void RESP_08_Test_3() {
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("Title1", "Author1");
+        book1.addHold(testAccount);
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.BorrowResult.ALREADY_ON_HOLD, system.verifyBorrowingAvailability(book1));
+    }
+
+    @Test
+    @DisplayName("Verify borrowing result for max books borrowed")
+    void RESP_08_Test_4() {
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("Title1", "Author1");
+        Book book2 = new Book("Title1", "Author1");
+        Book book3 = new Book("Title1", "Author1");
+        Book book4 = new Book("Title1", "Author1");
+        testAccount.addBorrowedBook(book1);
+        testAccount.addBorrowedBook(book2);
+        testAccount.addBorrowedBook(book3);
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, system.verifyBorrowingAvailability(book4));
+    }
+
+
 }
 

@@ -33,4 +33,8 @@ public class Account {
     public List<Book> getBorrowedBooks(){
         return borrowedBooks;
     }
+
+    public void addBorrowedBook(Book book){
+        borrowedBooks.add(book);
+    }
 }

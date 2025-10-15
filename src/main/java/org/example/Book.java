@@ -1,9 +1,13 @@
 package org.example;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Book {
     String title;
     String author;
     BookStatus status;
+    Queue<Account> holdQueue = new LinkedList<>();
 
     // Enum values to keep track of a books status
     public enum BookStatus {
@@ -30,5 +34,10 @@ public class Book {
 
     public String getAuthor() {
         return author;
+    }
+
+    // Adds account to the holding queue
+    public void addHold(Account account){
+        holdQueue.add(account);
     }
 }

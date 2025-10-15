@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 public class LibrarySystem {
     private Account currAccount;
 
+    // Enum values to track the result of borrowing a book
+    public enum BorrowResult {
+        SUCCESS, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
+    }
 
     public void promptForPassword(PrintWriter output){
         output.print("Enter Password: ");
@@ -32,5 +36,10 @@ public class LibrarySystem {
     public void promptBookConfirmation(Book book, PrintWriter output){
         output.print("You selected " + book.getTitle() + " by " + book.getAuthor() + ". Enter (1) to proceed with borrowing. ");
         output.flush();
+    }
+
+    // Returns the corresponding borrowing book result
+    public BorrowResult verifyBorrowingAvailability(Book book){
+        return BorrowResult.SUCCESS;
     }
 }
