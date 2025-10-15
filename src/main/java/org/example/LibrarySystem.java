@@ -55,6 +55,21 @@ public class LibrarySystem {
         return BorrowResult.BORROW_ALLOWED;
     }
 
+    // Messages for handling use case 2 extensions
     public void displayBorrowingMessages(BorrowResult result, PrintWriter output){
+        switch (result){
+            case ALREADY_ON_HOLD:
+                output.print("You already have a hold on this book. ");
+                break;
+            case MAX_BOOKS_REACHED:
+                output.print("You already have 3 books borrowed. This book will be placed on hold for you. ");
+                break;
+            case ALREADY_BORROWED:
+                output.print("You already have this book checked out. ");
+                break;
+            default:
+                break;
+        }
+        output.flush();
     }
 }
