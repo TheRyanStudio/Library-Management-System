@@ -54,4 +54,7 @@ public class LibrarySystem {
         }
         return BorrowResult.BORROW_ALLOWED;
     }
+
+    public void displayBorrowingMessages(BorrowResult result, PrintWriter output){
+    }
 }

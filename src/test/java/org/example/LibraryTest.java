@@ -199,6 +199,19 @@ public class LibraryTest {
         assertEquals(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, system.verifyBorrowingAvailability(book4));
     }
 
+    @Test
+    @DisplayName("Check library system displays correct borrowing message")
+    void RESP_09_Test_1(){
+        StringWriter output = new StringWriter();
+        system.displayBorrowingMessages(LibrarySystem.BorrowResult.ALREADY_BORROWED, new PrintWriter(output));
+        system.displayBorrowingMessages(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, new PrintWriter(output));
+        system.displayBorrowingMessages(LibrarySystem.BorrowResult.ALREADY_ON_HOLD, new PrintWriter(output));
+        assertTrue(output.toString().contains("You already have this book checked out. "));
+        assertTrue(output.toString().contains("You already have 3 books borrowed. This book will be placed on hold for you. "));
+        assertTrue(output.toString().contains("You already have a hold on this book. "));
+    }
+
+
 
 }
 
