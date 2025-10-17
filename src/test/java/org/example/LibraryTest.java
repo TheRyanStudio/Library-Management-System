@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.PrintWriter;
@@ -32,13 +33,16 @@ public class LibraryTest {
         assertEquals(20, size);
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({
+            "0, Great Gatsby",
+            "9, Brave New World",
+            "19, The Picture of Dorian Gray"
+    })
     @DisplayName("Check library collection for valid books")
-    void RESP_01_Test_2() {
+    void RESP_01_Test_2(int index, String expectedTitle) {
         // Testing for 1st, 10th and 20th book
-        assertEquals("Great Gatsby", collection.getBook(0).getTitle());
-        assertEquals("Brave New World", collection.getBook(9).getTitle());
-        assertEquals("The Picture of Dorian Gray", collection.getBook(19).getTitle());
+        assertEquals(expectedTitle, collection.getBook(index).getTitle());
     }
 
     @ParameterizedTest
@@ -77,28 +81,37 @@ public class LibraryTest {
         assertNotNull(authenticated); // Method returns null with no matching account object
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({
+            "'',''",
+            "null, null",
+            "wrongUsername, wrongPassword",
+            "Username1, Password1"
+    })
+    // Tests for invalid authentication with empty, null, incorrect and caps attempts
     @DisplayName("Check account manager for invalid username and password")
-    void RESP_03_Test_2() {
-        assertNull(accounts.authenticate("", ""));
-        assertNull(accounts.authenticate(null, null));
-        assertNull(accounts.authenticate("wrongUsername", "wrongPassword"));
-        assertNull(accounts.authenticate("Username1", "Password1")); // Test case-sensitive
+    void RESP_03_Test_2(String username, String password) {
+        assertNull(accounts.authenticate(username, password));
     }
 
     @Test
-    @DisplayName("Check account manager for username and password prompt")
+    @DisplayName("Check account manager for password prompt")
     void RESP_03_Test_3() {
         StringWriter output = new StringWriter();
-        system.promptForUsername(new PrintWriter(output));
         system.promptForPassword(new PrintWriter(output));
-        assertTrue(output.toString().contains("Enter Username: "));
         assertTrue(output.toString().contains("Enter Password: "));
+    }
+    @Test
+    @DisplayName("Check account manager for username prompt")
+    void RESP_03_Test_4() {
+        StringWriter output = new StringWriter();
+        system.promptForUsername(new PrintWriter(output));
+        assertTrue(output.toString().contains("Enter Username: "));
     }
 
     @Test
     @DisplayName("Check library system for correct authentication error prompt")
-    void RESP_03_Test_4() {
+    void RESP_03_Test_5() {
         StringWriter output = new StringWriter();
         system.promptAuthenticationError(new PrintWriter(output));
         assertTrue(output.toString().contains("Authentication Failed."));
@@ -121,24 +134,21 @@ public class LibraryTest {
         assertTrue(output.toString().contains("(1) Borrow a book. (2) Return a book. (3) Logout. "));
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({
+            "1, Great Gatsby, F. Scott FitzGerald",
+            "10, Brave New World, Aldous Huxley",
+            "20, The Picture of Dorian Gray, Oscar Wilde"
+    })
     @DisplayName("Check library system displays book collection")
-    void RESP_06_Test_1() {
+    void RESP_06_Test_1(int index, String title, String author) {
         StringWriter output = new StringWriter();
         collection.displayCollection(new PrintWriter(output));
         String result = output.toString();
 
         // Testing that the display contains the 1st, 10th and 20th book
-        assertTrue(result.contains("1. Title: Great Gatsby"));
-        assertTrue(result.contains("Author: F. Scott FitzGerald"));
-        assertTrue(result.contains("Status: AVAILABLE"));
-
-        assertTrue(result.contains("10. Title: Brave New World"));
-        assertTrue(result.contains("Author: Aldous Huxley"));
-        assertTrue(result.contains("Status: AVAILABLE"));
-
-        assertTrue(result.contains("20. Title: The Picture of Dorian Gray"));
-        assertTrue(result.contains("Author: Oscar Wilde"));
+        assertTrue(result.contains(index + ". Title: " + title));
+        assertTrue(result.contains("Author: " + author));
         assertTrue(result.contains("Status: AVAILABLE"));
     }
 
@@ -199,16 +209,18 @@ public class LibraryTest {
         assertEquals(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, system.verifyBorrowingAvailability(book4));
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource({
+            "ALREADY_BORROWED, You already have this book checked out.",
+            "MAX_BOOKS_REACHED, You already have 3 books borrowed. This book will be placed on hold for you.",
+            "ALREADY_ON_HOLD, You already have a hold on this book."
+    })
+    // Tests each of the extensions messages
     @DisplayName("Check library system displays correct borrowing message")
-    void RESP_09_Test_1(){
+    void RESP_09_Test_1(LibrarySystem.BorrowResult result, String expectedMessage){
         StringWriter output = new StringWriter();
-        system.displayBorrowingMessages(LibrarySystem.BorrowResult.ALREADY_BORROWED, new PrintWriter(output));
-        system.displayBorrowingMessages(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, new PrintWriter(output));
-        system.displayBorrowingMessages(LibrarySystem.BorrowResult.ALREADY_ON_HOLD, new PrintWriter(output));
-        assertTrue(output.toString().contains("You already have this book checked out. "));
-        assertTrue(output.toString().contains("You already have 3 books borrowed. This book will be placed on hold for you. "));
-        assertTrue(output.toString().contains("You already have a hold on this book. "));
+        system.displayBorrowingMessages(result, new PrintWriter(output));
+        assertTrue(output.toString().contains(expectedMessage));
     }
 
     @Test
@@ -229,7 +241,6 @@ public class LibraryTest {
 
         assertTrue(output.toString().contains("2"));
     }
-
 
 }
 
