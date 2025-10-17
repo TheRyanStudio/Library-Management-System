@@ -242,5 +242,13 @@ public class LibraryTest {
         assertTrue(output.toString().contains("2"));
     }
 
+    @Test
+    @DisplayName("Library system calculates book due date.")
+    void RESP_11_Test_1() {
+        StringWriter output = new StringWriter();
+        system.calculateBookDueDate(new PrintWriter(output));
+        assertTrue(output.toString().contains("2025-12-25"));
+    }
+
 }
 

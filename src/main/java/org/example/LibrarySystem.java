@@ -77,4 +77,7 @@ public class LibrarySystem {
         output.print("Your current book count is " + currAccount.getBorrowedBooks().size() + ".");
         output.flush();
     }
+
+    public void calculateBookDueDate(PrintWriter output){
+    }
 }
