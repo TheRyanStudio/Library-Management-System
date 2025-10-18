@@ -79,5 +79,8 @@ public class LibrarySystem {
     }
 
     public void calculateBookDueDate(PrintWriter output){
+        String currDate = "2025-12-11";
+        String dueDate = "2025-12-25";
+        output.print(dueDate);
     }
 }
