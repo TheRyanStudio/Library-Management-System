@@ -90,7 +90,7 @@ public class LibrarySystem {
     }
 
     public void holdBook(Book book){
-
+        book.addHold(currAccount);
     }
 
 }
