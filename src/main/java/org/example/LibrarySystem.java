@@ -84,5 +84,7 @@ public class LibrarySystem {
         output.print(dueDate);
     }
     public void borrowBook(Book book){
+        currAccount.addBorrowedBook(book);
+        book.setStatus(Book.BookStatus.CHECKED_OUT);
     }
 }
