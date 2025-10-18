@@ -83,4 +83,6 @@ public class LibrarySystem {
         String dueDate = "2025-12-25";
         output.print(dueDate);
     }
+    public void borrowBook(Book book){
+    }
 }

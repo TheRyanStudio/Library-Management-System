@@ -249,6 +249,17 @@ public class LibraryTest {
         system.calculateBookDueDate(new PrintWriter(output));
         assertTrue(output.toString().contains("2025-12-25"));
     }
+    @Test
+    @DisplayName("Check Library system handles borrowing transaction")
+    void RESP_12_Test_1(){
+        Book testBook1 = new Book("test", "test");
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        system.borrowBook(testBook1);
+
+        // Asserts to check if borrowBook correctly records and update book status
+        assertEquals(Book.BookStatus.CHECKED_OUT.name(), testBook1.getStatus());
+        assertTrue(testAccount.isBookInList(testBook1));
+    }
 
 }
-
