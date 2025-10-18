@@ -261,5 +261,13 @@ public class LibraryTest {
         assertEquals(Book.BookStatus.CHECKED_OUT.name(), testBook1.getStatus());
         assertTrue(testAccount.isBookInList(testBook1));
     }
-
+    @Test
+    @DisplayName("Check library system records a book hold")
+    void RESP_13_Test_1(){
+        testAccount = new Account("test", "test");
+        Book testBook1 = new Book("test", "test");
+        system.establishSession(testAccount);
+        system.holdBook(testBook1);
+        assertTrue(testBook1.isAccountInQueue(testAccount));
+    }
 }

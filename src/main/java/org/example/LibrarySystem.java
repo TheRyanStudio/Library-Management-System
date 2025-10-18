@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 public class LibrarySystem {
     private Account currAccount;
+    private Collection collection;
 
     // Enum values to track the result of borrowing a book
     public enum BorrowResult {
@@ -87,4 +88,9 @@ public class LibrarySystem {
         currAccount.addBorrowedBook(book);
         book.setStatus(Book.BookStatus.CHECKED_OUT);
     }
+
+    public void holdBook(Book book){
+
+    }
+
 }
