@@ -233,7 +233,6 @@ public class LibraryTest {
         Book book2 = new Book("Title1", "Author1");
         testAccount.addBorrowedBook(book1);
         testAccount.addBorrowedBook(book2);
-
         system.establishSession(testAccount);
 
         StringWriter output = new StringWriter();
@@ -247,6 +246,7 @@ public class LibraryTest {
     void RESP_11_Test_1() {
         StringWriter output = new StringWriter();
         system.calculateBookDueDate(new PrintWriter(output));
+
         assertTrue(output.toString().contains("2025-12-25"));
     }
     @Test
@@ -268,6 +268,33 @@ public class LibraryTest {
         Book testBook1 = new Book("test", "test");
         system.establishSession(testAccount);
         system.holdBook(testBook1);
+
         assertTrue(testBook1.isAccountInQueue(testAccount));
     }
+    @Test
+    @DisplayName("Check for notification of available held books")
+    void RESP_14_Test_1(){
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        Book testBook1 = new Book("test", "test");
+        testBook1.addHold(testAccount);
+        StringWriter output = new StringWriter();
+
+        system.notifyAvailableBooks(new PrintWriter(output));
+        assertTrue(output.toString().contains("has become available for you!"));
+    }
+    @Test
+    @DisplayName("Check for do not notify of available held books")
+    void RESP_14_Test_2(){
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        Book testBook1 = new Book("test", "test");
+        testBook1.addHold(testAccount);
+        testBook1.setStatus(Book.BookStatus.CHECKED_OUT);
+        StringWriter output = new StringWriter();
+
+        system.notifyAvailableBooks(new PrintWriter(output));
+        assertFalse(output.toString().isBlank());
+    }
+
 }

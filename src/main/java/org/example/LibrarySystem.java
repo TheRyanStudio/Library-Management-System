@@ -93,4 +93,7 @@ public class LibrarySystem {
         book.addHold(currAccount);
     }
 
+    public void notifyAvailableBooks(PrintWriter output) {
+    }
+
 }
