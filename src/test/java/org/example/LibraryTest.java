@@ -113,7 +113,7 @@ public class LibraryTest {
     @DisplayName("Check library system for correct authentication error prompt")
     void RESP_03_Test_5() {
         StringWriter output = new StringWriter();
-        system.promptAuthenticationError(new PrintWriter(output));
+        system.displayAuthenticationError(new PrintWriter(output));
         assertTrue(output.toString().contains("Authentication Failed."));
     }
 

@@ -28,8 +28,8 @@ public class LibrarySystem {
         output.print("Enter Username: ");
         output.flush();
     }
-    public void promptAuthenticationError(PrintWriter output){
-        output.print("Authentication Failed.");
+    public void displayAuthenticationError(PrintWriter output){
+        output.println("Authentication Failed.");
         output.flush();
     }
     public Account establishSession(Account account) {
@@ -69,13 +69,13 @@ public class LibrarySystem {
     public void displayBorrowingMessages(BorrowResult result, PrintWriter output){
         switch (result){
             case ALREADY_ON_HOLD:
-                output.print("You already have a hold on this book. ");
+                output.println("You already have a hold on this book. ");
                 break;
             case MAX_BOOKS_REACHED:
-                output.print("You already have 3 books borrowed. This book will be placed on hold for you. ");
+                output.println("You already have 3 books borrowed. This book will be placed on hold for you. ");
                 break;
             case ALREADY_BORROWED:
-                output.print("You already have this book checked out. ");
+                output.println("You already have this book checked out. ");
                 break;
             default:
                 break;
@@ -84,7 +84,7 @@ public class LibrarySystem {
     }
 
     public void displayBookCount(PrintWriter output){
-        output.print("Your current book count is " + currAccount.getBorrowedBooks().size() + ".");
+        output.println("Your current book count is " + currAccount.getBorrowedBooks().size() + ".");
         output.flush();
     }
 
@@ -110,7 +110,7 @@ public class LibrarySystem {
 
             // If the next holder matches the current account and the book status is available notify the current account
             if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.ON_HOLD.name())){
-                output.print(curBook.getTitle() + " has become available for you!" );
+                output.println(curBook.getTitle() + " has become available for you!" );
 
             }
         }
@@ -152,7 +152,7 @@ public class LibrarySystem {
     }
     public void displayReturnMessages(ReturnResult result, PrintWriter output){
         if (result == ReturnResult.NO_BOOKS_TO_RETURN){
-            output.print("You have no books to return.");
+            output.println("You have no books to return.");
             output.flush();
         }
     }
