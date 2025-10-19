@@ -151,6 +151,9 @@ public class LibrarySystem {
 
     }
     public void displayReturnMessages(ReturnResult result, PrintWriter output){
+        if (result == ReturnResult.NO_BOOKS_TO_RETURN){
+            output.print("You have no books to return.");
+        }
 
     }
 }
