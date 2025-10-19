@@ -157,6 +157,7 @@ public class LibrarySystem {
     }
     // Prompt message after user returns a book
     public void promptReturnConfirmation(Book book, PrintWriter output){
-
+        output.print("You would like to return " + book.getTitle() + " by " + book.getAuthor() + ". Enter (1) to confirm ");
+        output.flush();
     }
 }
