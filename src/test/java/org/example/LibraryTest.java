@@ -23,7 +23,7 @@ public class LibraryTest {
         InitializeLibrary library = new InitializeLibrary();
         collection = library.getCollection();
         accounts = library.getAccounts();
-        system = new LibrarySystem();
+        system = new LibrarySystem(collection);
     }
 
     @Test
@@ -277,6 +277,7 @@ public class LibraryTest {
         testAccount = new Account("test", "test");
         system.establishSession(testAccount);
         Book testBook1 = new Book("test", "test");
+        collection.addBook(testBook1);
         testBook1.addHold(testAccount);
         StringWriter output = new StringWriter();
 
@@ -289,12 +290,13 @@ public class LibraryTest {
         testAccount = new Account("test", "test");
         system.establishSession(testAccount);
         Book testBook1 = new Book("test", "test");
+        collection.addBook(testBook1);
         testBook1.addHold(testAccount);
         testBook1.setStatus(Book.BookStatus.CHECKED_OUT);
         StringWriter output = new StringWriter();
 
         system.notifyAvailableBooks(new PrintWriter(output));
-        assertFalse(output.toString().isBlank());
+        assertTrue(output.toString().isBlank());
     }
 
 }

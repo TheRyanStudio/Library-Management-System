@@ -6,6 +6,10 @@ public class LibrarySystem {
     private Account currAccount;
     private Collection collection;
 
+    public LibrarySystem(Collection collection){
+        this.collection = collection;
+    }
+
     // Enum values to track the result of borrowing a book
     public enum BorrowResult {
         BORROW_ALLOWED, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
@@ -94,6 +98,17 @@ public class LibrarySystem {
     }
 
     public void notifyAvailableBooks(PrintWriter output) {
+
+        // Loop through the collection of books checking for the next holder to match the current account
+        for (int i = 0; i < collection.getCollectionSize(); i++){
+            Book curBook = collection.getBook(i);
+            Account next = curBook.getNextHolder();
+
+            // If the next holder matches the current account and the book status is available notify the current account
+            if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.AVAILABLE.name())){
+                output.print(curBook.getTitle() + " has become available for you!" );
+            }
+        }
     }
 
 }

@@ -45,4 +45,8 @@ public class Book {
     public boolean isAccountInQueue(Account account){
         return holdQueue.contains(account);
     }
+
+    public Account getNextHolder(){
+        return holdQueue.peek();
+    }
 }
