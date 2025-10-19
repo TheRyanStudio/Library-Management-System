@@ -276,6 +276,7 @@ public class LibraryTest {
         Book testBook1 = new Book("test", "test");
         collection.addBook(testBook1);
         testBook1.addHold(testAccount);
+        testBook1.setStatus(Book.BookStatus.ON_HOLD);
         StringWriter output = new StringWriter();
 
         system.notifyAvailableBooks(new PrintWriter(output));
@@ -359,7 +360,7 @@ public class LibraryTest {
         testAccount.addBorrowedBook(book1);
         system.establishSession(testAccount);
 
-        assertEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(book1));
+        assertEquals(LibrarySystem.ReturnResult.BOOK_AVAILABLE, system.returnBook(book1));
     }
 
 

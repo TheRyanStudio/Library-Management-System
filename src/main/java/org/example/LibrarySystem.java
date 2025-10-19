@@ -17,7 +17,7 @@ public class LibrarySystem {
 
     // Enum values to handle potential outcomes of returning a book
     public enum ReturnResult {
-        RETURN_ALLOWED, NO_BOOKS_TO_RETURN, BOOK_ON_HOLD
+        BOOK_AVAILABLE, NO_BOOKS_TO_RETURN, BOOK_ON_HOLD
     }
 
     public void promptForPassword(PrintWriter output){
@@ -109,7 +109,7 @@ public class LibrarySystem {
             Account next = curBook.getNextHolder();
 
             // If the next holder matches the current account and the book status is available notify the current account
-            if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.AVAILABLE.name())){
+            if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.ON_HOLD.name())){
                 output.print(curBook.getTitle() + " has become available for you!" );
 
             }
@@ -147,7 +147,7 @@ public class LibrarySystem {
         // Normal return operation
         currAccount.removeBorrowedBook(book);
         book.setStatus(Book.BookStatus.AVAILABLE);
-        return ReturnResult.RETURN_ALLOWED;
+        return ReturnResult.BOOK_AVAILABLE;
 
     }
 }
