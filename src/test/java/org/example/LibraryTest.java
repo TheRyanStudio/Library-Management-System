@@ -244,10 +244,7 @@ public class LibraryTest {
     @Test
     @DisplayName("Library system calculates book due date.")
     void RESP_11_Test_1() {
-        StringWriter output = new StringWriter();
-        system.calculateBookDueDate(new PrintWriter(output));
-
-        assertTrue(output.toString().contains("2025-12-25"));
+        assertTrue(system.calculateBookDueDate().contains("2025-12-25"));
     }
     @Test
     @DisplayName("Check Library system handles borrowing transaction")

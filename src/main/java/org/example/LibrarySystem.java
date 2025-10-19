@@ -83,10 +83,9 @@ public class LibrarySystem {
         output.flush();
     }
 
-    public void calculateBookDueDate(PrintWriter output){
+    public String calculateBookDueDate(){
         String currDate = "2025-12-11";
-        String dueDate = "2025-12-25";
-        output.print(dueDate);
+        return "2025-12-25";
     }
     public void borrowBook(Book book){
         currAccount.addBorrowedBook(book);
