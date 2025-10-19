@@ -374,4 +374,15 @@ public class LibraryTest {
         assertTrue(output.toString().contains(expectedMessage));
     }
 
+    @Test
+    @DisplayName("Check library system prompts for return confirmation")
+    void RESP_19_Test_1(){
+        Book testBook1 = new Book("test", "test");
+        StringWriter output = new StringWriter();
+        system.promptReturnConfirmation(testBook1, new PrintWriter(output));
+
+        assertTrue(output.toString().contains("You would like to return " + testBook1.getTitle() + " by " + testBook1.getAuthor() + ". Enter (1) to confirm "));
+
+    }
+
 }
