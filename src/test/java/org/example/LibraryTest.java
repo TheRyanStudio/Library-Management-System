@@ -363,5 +363,15 @@ public class LibraryTest {
         assertEquals(LibrarySystem.ReturnResult.BOOK_AVAILABLE, system.returnBook(book1));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "NO_BOOKS_TO_RETURN, You have no books to return.",
+    })
+    @DisplayName("Check library system displays correct return message")
+    void RESP_18_Test_1(LibrarySystem.ReturnResult result, String expectedMessage){
+        StringWriter output = new StringWriter();
+        system.displayReturnMessages(result, new PrintWriter(output));
+        assertTrue(output.toString().contains(expectedMessage));
+    }
 
 }

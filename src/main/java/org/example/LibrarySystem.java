@@ -150,4 +150,7 @@ public class LibrarySystem {
         return ReturnResult.BOOK_AVAILABLE;
 
     }
+    public void displayReturnMessages(ReturnResult result, PrintWriter output){
+
+    }
 }
