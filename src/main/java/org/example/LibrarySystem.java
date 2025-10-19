@@ -113,6 +113,12 @@ public class LibrarySystem {
     // Prompt confirmation message after account borrows a book
     public void promptBorrowingConfirmation(Book book, PrintWriter output){
         output.print("You selected " + book.getTitle() + " by " + book.getAuthor() + ". The due date is " + calculateBookDueDate() + ". Enter (1) to confirm ");
+        output.flush();
+    }
+
+    public void displayBorrowedBooksWithDueDates(PrintWriter output){
+
+
     }
 
 }

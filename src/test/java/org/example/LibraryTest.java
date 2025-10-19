@@ -296,16 +296,33 @@ public class LibraryTest {
         assertTrue(output.toString().isBlank());
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "testTitle, testAuthor, testDueDate"
-    })
+    @Test
     @DisplayName("Check that library system provides borrowing confirmation")
     void RESP_15_Test_1(){
         Book testBook1 = new Book("testTitle", "testAuthor");
         StringWriter output = new StringWriter();
         system.promptBorrowingConfirmation(testBook1, new PrintWriter(output));
         assertTrue(output.toString().contains("You selected " + testBook1.getTitle() + " by " + testBook1.getAuthor() + ". The due date is " + system.calculateBookDueDate() + ". Enter (1) to confirm "));
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "testTitle1, testAuthor1, 2025-12-25",
+            "testTitle2, testAuthor2, 2025-12-25",
+    })
+    @DisplayName("check library system displays current account borrowed books and due dates")
+    void RESP_16_Test_1(String title, String author, String dueDate){
+        // Initialize and add book to account for testing
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        Book book = new Book(title, author);
+        collection.addBook(book);
+
+        StringWriter output = new StringWriter();
+        system.displayBorrowedBooksWithDueDates(new PrintWriter(output));
+        String result = "Title: " + title + " Author: " + author + " Due Date: " + dueDate;
+        assertTrue(output.toString().contains(result));
 
     }
 
