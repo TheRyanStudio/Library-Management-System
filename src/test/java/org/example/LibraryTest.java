@@ -326,4 +326,41 @@ public class LibraryTest {
 
     }
 
+    @Test
+    @DisplayName("Check library system handles no books to return")
+    void RESP_17_Test_1(){
+        // Scenario where a user has no books to return
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("test", "test");
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.ReturnResult.NO_BOOKS_TO_RETURN, system.returnBook(book1));
+    }
+
+    @Test
+    @DisplayName("Check library system handles return with a hold")
+    void RESP_17_Test_2(){
+        // Scenario where a borrowed book is on hold
+        testAccount = new Account("test1", "test2");
+        Account testHoldAccount = new Account("test", "test");
+        Book book1 = new Book("test", "test");
+        testAccount.addBorrowedBook(book1);
+        book1.addHold(testHoldAccount);
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.ReturnResult.BOOK_ON_HOLD, system.returnBook(book1));
+    }
+
+    @Test
+    @DisplayName("Check library system handles return with no hold")
+    void RESP_17_Test_3(){
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("test", "test");
+        testAccount.addBorrowedBook(book1);
+        system.establishSession(testAccount);
+
+        assertNotEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(book1));
+    }
+
+
 }

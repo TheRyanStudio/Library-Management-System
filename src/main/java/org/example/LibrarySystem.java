@@ -15,6 +15,11 @@ public class LibrarySystem {
         BORROW_ALLOWED, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
     }
 
+    // Enum values to handle potential outcomes of returning a book
+    public enum ReturnResult {
+        RETURN_ALLOWED, NO_BOOKS_TO_RETURN, BOOK_ON_HOLD
+    }
+
     public void promptForPassword(PrintWriter output){
         output.print("Enter Password: ");
         output.flush();
@@ -127,4 +132,7 @@ public class LibrarySystem {
     output.flush();
     }
 
+    public ReturnResult returnBook(Book book){
+        return ReturnResult.RETURN_ALLOWED;
+    }
 }
