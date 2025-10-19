@@ -359,7 +359,7 @@ public class LibraryTest {
         testAccount.addBorrowedBook(book1);
         system.establishSession(testAccount);
 
-        assertNotEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(book1));
+        assertEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(book1));
     }
 
 

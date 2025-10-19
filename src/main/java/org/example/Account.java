@@ -43,4 +43,8 @@ public class Account {
         return borrowedBooks.contains(book);
     }
 
+    public void removeBorrowedBook(Book book){
+        borrowedBooks.remove(book);
+    }
+
 }

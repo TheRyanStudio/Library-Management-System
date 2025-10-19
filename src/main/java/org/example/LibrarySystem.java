@@ -133,6 +133,21 @@ public class LibrarySystem {
     }
 
     public ReturnResult returnBook(Book book){
+
+        // Check whether there are no books to be returned
+        if (currAccount.getBorrowedBooks().isEmpty()) {
+            return ReturnResult.NO_BOOKS_TO_RETURN;
+        }
+        // Check whether there is a hold queue
+        if (book.getNextHolder() != null){
+            currAccount.removeBorrowedBook(book);
+            book.setStatus(Book.BookStatus.ON_HOLD);
+            return ReturnResult.BOOK_ON_HOLD;
+        }
+        // Normal return operation
+        currAccount.removeBorrowedBook(book);
+        book.setStatus(Book.BookStatus.AVAILABLE);
         return ReturnResult.RETURN_ALLOWED;
+
     }
 }
