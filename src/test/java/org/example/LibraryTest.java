@@ -385,4 +385,25 @@ public class LibraryTest {
 
     }
 
+    @Test
+    @DisplayName("Check library system for successful logout message")
+    void RESP_20_Test_1(){
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        StringWriter output = new StringWriter();
+        system.logout(new PrintWriter(output));
+
+        assertTrue(output.toString().contains("You have logged out."));
+    }
+    @Test
+    @DisplayName("Check library system for successful logout")
+    void RESP_20_Test_2(){
+        testAccount = new Account("test", "test");
+        system.establishSession(testAccount);
+        StringWriter output = new StringWriter();
+        system.logout(new PrintWriter(output));
+
+        assertNull(system.getCurrAccount());
+    }
+
 }

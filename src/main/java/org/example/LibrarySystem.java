@@ -153,11 +153,15 @@ public class LibrarySystem {
     public void displayReturnMessages(ReturnResult result, PrintWriter output){
         if (result == ReturnResult.NO_BOOKS_TO_RETURN){
             output.print("You have no books to return.");
+            output.flush();
         }
     }
     // Prompt message after user returns a book
     public void promptReturnConfirmation(Book book, PrintWriter output){
         output.print("You would like to return " + book.getTitle() + " by " + book.getAuthor() + ". Enter (1) to confirm ");
         output.flush();
+    }
+
+    public void logout(PrintWriter output){
     }
 }
