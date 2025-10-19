@@ -163,5 +163,8 @@ public class LibrarySystem {
     }
 
     public void logout(PrintWriter output){
+        currAccount = null; // Clear the current user
+        output.println("You have logged out.");
+        output.flush();
     }
 }
