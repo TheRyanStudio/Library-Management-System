@@ -106,8 +106,10 @@ public class LibrarySystem {
             // If the next holder matches the current account and the book status is available notify the current account
             if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.AVAILABLE.name())){
                 output.print(curBook.getTitle() + " has become available for you!" );
+
             }
         }
+        output.flush();
     }
 
     // Prompt confirmation message after account borrows a book
@@ -117,8 +119,12 @@ public class LibrarySystem {
     }
 
     public void displayBorrowedBooksWithDueDates(PrintWriter output){
-
-
+    output.println("Your borrowed books are:");
+        for (int i = 0; i < currAccount.getBorrowedBooks().size(); i++){
+            Book book = currAccount.getBorrowedBooks().get(i);
+            output.println(i+ 1 + ". Title: " + book.getTitle() + " Author: " + book.getAuthor() + " Due Date: " + calculateBookDueDate());
+        }
+    output.flush();
     }
 
 }

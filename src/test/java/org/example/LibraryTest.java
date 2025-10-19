@@ -317,7 +317,7 @@ public class LibraryTest {
         testAccount = new Account("test", "test");
         system.establishSession(testAccount);
         Book book = new Book(title, author);
-        collection.addBook(book);
+        testAccount.addBorrowedBook(book);
 
         StringWriter output = new StringWriter();
         system.displayBorrowedBooksWithDueDates(new PrintWriter(output));
