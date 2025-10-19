@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,4 +51,44 @@ public class AcceptanceTest {
         system.establishSession(user2);
         assertEquals("AVAILABLE", gatsby.getStatus());
     }
+
+    @Test
+    @DisplayName("Initialization and Authentication with Error Handling")
+    void A_TEST_02() {
+        // Setup library
+        InitializeLibrary library = new InitializeLibrary();
+        Collection collection = library.getCollection();
+        AccountManager accounts = library.getAccounts();
+        LibrarySystem system = new LibrarySystem(collection);
+
+        // Check initialization
+        assertEquals(20, collection.getCollectionSize());
+        assertEquals(3, accounts.getAccountSize());
+
+        // Valid login
+        Account validAccount = accounts.authenticate("username1", "password1");
+        assertNotNull(validAccount);
+        system.establishSession(validAccount);
+
+        // Check menu display
+        StringWriter menuOutput = new StringWriter();
+        system.promptOperations(new PrintWriter(menuOutput));
+        assertTrue(menuOutput.toString().contains("(1) Borrow a book. (2) Return a book. (3) Logout."));
+
+        // Logout
+        StringWriter logoutOutput = new StringWriter();
+        system.logout(new PrintWriter(logoutOutput));
+        assertTrue(logoutOutput.toString().contains("You have logged out."));
+        assertNull(system.getCurrAccount());
+
+        // Invalid login
+        Account invalidAccount = accounts.authenticate("wrongUser", "wrongPass");
+        assertNull(invalidAccount);
+
+        StringWriter authenticateFailOutput = new StringWriter();
+        system.displayAuthenticationError(new PrintWriter(authenticateFailOutput));
+        assertTrue(authenticateFailOutput.toString().contains("Authentication Failed. Please Retry"));
+
+    }
+
 }

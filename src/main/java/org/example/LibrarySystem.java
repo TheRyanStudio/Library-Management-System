@@ -29,7 +29,7 @@ public class LibrarySystem {
         output.flush();
     }
     public void displayAuthenticationError(PrintWriter output){
-        output.println("Authentication Failed.");
+        output.println("Authentication Failed. Please Retry");
         output.flush();
     }
     public Account establishSession(Account account) {
