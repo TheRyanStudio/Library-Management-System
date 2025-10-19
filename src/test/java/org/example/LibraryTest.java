@@ -296,4 +296,17 @@ public class LibraryTest {
         assertTrue(output.toString().isBlank());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "testTitle, testAuthor, testDueDate"
+    })
+    @DisplayName("Check that library system provides borrowing confirmation")
+    void RESP_15_Test_1(){
+        Book testBook1 = new Book("testTitle", "testAuthor");
+        StringWriter output = new StringWriter();
+        system.promptBorrowingConfirmation(testBook1, new PrintWriter(output));
+        assertTrue(output.toString().contains("You selected " + testBook1.getTitle() + " by " + testBook1.getAuthor() + ". The due date is " + system.calculateBookDueDate() + ". Enter (1) to confirm "));
+
+    }
+
 }

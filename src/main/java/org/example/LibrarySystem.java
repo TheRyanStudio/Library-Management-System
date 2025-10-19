@@ -110,4 +110,8 @@ public class LibrarySystem {
         }
     }
 
+    // Prompt confirmation message after account borrows a book
+    public void promptBorrowingConfirmation(Book book, PrintWriter output){
+    }
+
 }
