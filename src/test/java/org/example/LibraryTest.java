@@ -143,7 +143,8 @@ public class LibraryTest {
     @DisplayName("Check library system displays book collection")
     void RESP_06_Test_1(int index, String title, String author) {
         StringWriter output = new StringWriter();
-        collection.displayCollection(new PrintWriter(output));
+        testAccount = new Account("test", "test");
+        collection.displayCollection(testAccount, new PrintWriter(output));
         String result = output.toString();
 
         // Testing that the display contains the 1st, 10th and 20th book
@@ -185,10 +186,12 @@ public class LibraryTest {
     @Test
     @DisplayName("Verify borrowing result for book already checked out")
     void RESP_08_Test_3() {
-        testAccount = new Account("test1", "test2");
+        testAccount = new Account("test1", "test1");
+        Account testAccount2 = new Account("test2", "test2");
         Book book1 = new Book("Title1", "Author1");
         book1.addHold(testAccount);
-        system.establishSession(testAccount);
+        book1.addHold(testAccount2);
+        system.establishSession(testAccount2);
 
         assertEquals(LibrarySystem.BorrowResult.ALREADY_ON_HOLD, system.verifyBorrowingAvailability(book1));
     }

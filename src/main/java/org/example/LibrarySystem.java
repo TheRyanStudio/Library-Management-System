@@ -51,8 +51,10 @@ public class LibrarySystem {
     // Returns the corresponding borrowing book result
     public BorrowResult verifyBorrowingAvailability(Book book) {
         // Check for the current account already in the holding queue
-        if (book.isAccountInQueue(currAccount)) {
-            return BorrowResult.ALREADY_ON_HOLD;
+        if (book.getNextHolder() != null && !book.getNextHolder().equals(currAccount)) {
+            if (book.isAccountInQueue(currAccount)) {
+                return BorrowResult.ALREADY_ON_HOLD;
+            }
         }
         // Check for max borrowed book size
         if (currAccount.getBorrowedBooks().size() >= 3) {
@@ -100,6 +102,8 @@ public class LibrarySystem {
         return "2025-12-25";
     }
     public void borrowBook(Book book){
+        if(book.getNextHolder() == currAccount)
+            book.removeNextHolder();
         currAccount.addBorrowedBook(book);
         book.setStatus(Book.BookStatus.CHECKED_OUT);
     }

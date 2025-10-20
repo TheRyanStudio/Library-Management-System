@@ -49,4 +49,7 @@ public class Book {
     public Account getNextHolder(){
         return holdQueue.peek();
     }
+    public void removeNextHolder(){
+        holdQueue.poll();
+    }
 }
