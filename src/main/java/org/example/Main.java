@@ -62,6 +62,19 @@ public class Main {
                         String confirmBorrow = input.nextLine().trim();
                         if(!confirmBorrow.equals("1")) break;
 
+                        // Verifies to see if the account can borrow this book
+                        LibrarySystem.BorrowResult result = system.verifyBorrowingAvailability(selectedBook);
+
+                            // Handles extensions for borrowing a book
+                        if (result != LibrarySystem.BorrowResult.BORROW_ALLOWED) {
+                            system.displayBorrowingMessages(result, output);
+                            if (result == LibrarySystem.BorrowResult.MAX_BOOKS_REACHED || result == LibrarySystem.BorrowResult.UNAVAILABLE) {
+                                system.holdBook(selectedBook);
+                                output.println("Hold placed successfully.");
+                            }
+                            break;
+                        }
+
 
 
 
