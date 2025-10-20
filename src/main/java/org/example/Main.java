@@ -97,6 +97,18 @@ public class Main {
                         int returnIndex = Integer.parseInt(input.nextLine()) - 1;
                         Book bookToReturn = authenticated.getBorrowedBooks().get(returnIndex);
 
+                        // Prompt to confirm the return selection
+                        system.promptReturnConfirmation(bookToReturn, output);
+                        String confirmReturn = input.nextLine().trim();
+                        if (!confirmReturn.equals("1")) break;
+
+                        // Handles return book logic and displays message based on scenario
+                        LibrarySystem.ReturnResult returnResult = system.returnBook(bookToReturn);
+                        if (returnResult == LibrarySystem.ReturnResult.BOOK_AVAILABLE) {
+                            output.println("Book returned successfully.");
+                        }
+                        break;
+
 
 
 
