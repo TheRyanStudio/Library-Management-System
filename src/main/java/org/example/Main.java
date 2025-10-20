@@ -51,6 +51,20 @@ public class Main {
                     case "1":
                         system.displayBookCount(output);
                         collection.displayCollection(output);
+
+                        output.print("Enter book number to borrow: ");
+                        output.flush();
+                        int borrowIndex = Integer.parseInt(input.nextLine()) - 1;
+
+                        Book selectedBook = collection.getBook(borrowIndex);
+                        system.promptBookConfirmation(selectedBook, output);
+
+                        String confirmBorrow = input.nextLine().trim();
+                        if(!confirmBorrow.equals("1")) break;
+
+
+
+
                 }
             }
 
