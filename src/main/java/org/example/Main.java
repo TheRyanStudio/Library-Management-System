@@ -41,6 +41,16 @@ public class Main {
             system.notifyAvailableBooks(output);
 
             boolean activeSession = true;
+            while (activeSession){
+                system.promptOperations(output);
+                String choice = input.nextLine().trim();
+
+                switch(choice) {
+
+                    // User borrows a book
+                    case "1":
+                }
+            }
 
         }
 
