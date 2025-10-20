@@ -81,6 +81,9 @@ public class LibrarySystem {
             case ALREADY_BORROWED:
                 output.println("You already have this book checked out. ");
                 break;
+            case UNAVAILABLE:
+                output.println("This book is already checked out. This book will be placed on hold for you. ");
+                break;
             default:
                 break;
         }
