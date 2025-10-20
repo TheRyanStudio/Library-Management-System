@@ -74,6 +74,14 @@ public class Main {
                             }
                             break;
                         }
+                        // Confirm borrowing
+                        system.promptBorrowingConfirmation(selectedBook, output);
+                        String confirmFinal = input.nextLine().trim();
+                        if (confirmFinal.equals("1")) {
+                            system.borrowBook(selectedBook);
+                        }
+                        break;
+
 
 
 
