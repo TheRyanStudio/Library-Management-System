@@ -35,6 +35,13 @@ public class Main {
                 continue; // retry logging in
             }
 
+            // Establish session
+            system.establishSession(authenticated);
+            output.println("Login successful. Welcome " + authenticated.getUsername() + "!");
+            system.notifyAvailableBooks(output);
+
+            boolean activeSession = true;
+
         }
 
     }
