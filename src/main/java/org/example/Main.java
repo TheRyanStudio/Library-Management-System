@@ -50,6 +50,7 @@ public class Main {
                     // User borrows a book
                     case "1":
                         system.displayBookCount(output);
+                        collection.displayCollection(output);
                 }
             }
 
