@@ -109,11 +109,10 @@ public class Main {
                         }
                         break;
 
-
-
-
-
-
+                    case "3":
+                        system.logout(output);
+                        activeSession = false;
+                        break;
                 }
             }
 
