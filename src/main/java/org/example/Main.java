@@ -82,6 +82,22 @@ public class Main {
                         }
                         break;
 
+                    // User returns a book
+                    case "2":
+                        // Handles case where the user has no books to return
+                        if (authenticated.getBorrowedBooks().isEmpty()) {
+                            system.displayReturnMessages(LibrarySystem.ReturnResult.NO_BOOKS_TO_RETURN, output);
+                            break;
+                        }
+
+                        // Displays users borrowed books
+                        system.displayBorrowedBooksWithDueDates(output);
+                        output.print("Enter book number to return: ");
+                        output.flush();
+                        int returnIndex = Integer.parseInt(input.nextLine()) - 1;
+                        Book bookToReturn = authenticated.getBorrowedBooks().get(returnIndex);
+
+
 
 
 
