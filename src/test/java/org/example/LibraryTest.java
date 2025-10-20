@@ -209,6 +209,17 @@ public class LibraryTest {
         assertEquals(LibrarySystem.BorrowResult.MAX_BOOKS_REACHED, system.verifyBorrowingAvailability(book4));
     }
 
+    @Test
+    @DisplayName("Verify borrowing result for max books borrowed")
+    void RESP_08_Test_5() {
+        testAccount = new Account("test1", "test2");
+        Book book1 = new Book("Title1", "Author1");
+        book1.setStatus(Book.BookStatus.CHECKED_OUT);
+        system.establishSession(testAccount);
+
+        assertEquals(LibrarySystem.BorrowResult.UNAVAILABLE, system.verifyBorrowingAvailability(book1));
+    }
+
     @ParameterizedTest
     @CsvSource({
             "ALREADY_BORROWED, You already have this book checked out.",

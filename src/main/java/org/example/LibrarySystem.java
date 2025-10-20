@@ -12,7 +12,7 @@ public class LibrarySystem {
 
     // Enum values to track the result of borrowing a book
     public enum BorrowResult {
-        BORROW_ALLOWED, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED
+        BORROW_ALLOWED, MAX_BOOKS_REACHED, ALREADY_ON_HOLD, ALREADY_BORROWED, UNAVAILABLE
     }
 
     // Enum values to handle potential outcomes of returning a book
@@ -61,6 +61,10 @@ public class LibrarySystem {
         // Check for the book already in the borrowers account
         if (currAccount.isBookInList(book)) {
             return BorrowResult.ALREADY_BORROWED;
+        }
+        // Check for book is already checked out
+        if (book.getStatus().equals("CHECKED_OUT")) {
+            return BorrowResult.UNAVAILABLE;
         }
         return BorrowResult.BORROW_ALLOWED;
     }
