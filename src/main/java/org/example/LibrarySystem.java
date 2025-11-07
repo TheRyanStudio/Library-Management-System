@@ -50,11 +50,9 @@ public class LibrarySystem {
 
     // Returns the corresponding borrowing book result
     public BorrowResult verifyBorrowingAvailability(Book book) {
-        // Check for the current account already in the holding queue
-        if (book.getNextHolder() != null && !book.getNextHolder().equals(currAccount)) {
-            if (book.isAccountInQueue(currAccount)) {
-                return BorrowResult.ALREADY_ON_HOLD;
-            }
+        // Check for the current account already in the holding queue, except for the next holder when the book is available for them to borrow
+        if (book.isAccountInQueue(currAccount) && !((book.getNextHolder() == currAccount) && (book.getStatus() == Book.BookStatus.AVAILABLE))) {
+            return BorrowResult.ALREADY_ON_HOLD;
         }
         // Check for max borrowed book size
         if (currAccount.getBorrowedBooks().size() >= 3) {
@@ -65,7 +63,11 @@ public class LibrarySystem {
             return BorrowResult.ALREADY_BORROWED;
         }
         // Check for book is already checked out
-        if (book.getStatus().equals("CHECKED_OUT")) {
+        if (book.getStatus() == Book.BookStatus.CHECKED_OUT) {
+            return BorrowResult.UNAVAILABLE;
+        }
+        // Check if the book is on hold by another account
+        if (book.getStatus() == Book.BookStatus.AVAILABLE && book.getNextHolder() != null && !book.getNextHolder().equals(currAccount)) {
             return BorrowResult.UNAVAILABLE;
         }
         return BorrowResult.BORROW_ALLOWED;
@@ -84,7 +86,7 @@ public class LibrarySystem {
                 output.println("You already have this book checked out. ");
                 break;
             case UNAVAILABLE:
-                output.println("This book is already checked out. This book will be placed on hold for you. ");
+                output.println("This book is unavailable. This book will be placed on hold for you. ");
                 break;
             default:
                 break;
@@ -120,7 +122,7 @@ public class LibrarySystem {
             Account next = curBook.getNextHolder();
 
             // If the next holder matches the current account and the book status is available notify the current account
-            if (next != null && next.equals(currAccount) && curBook.getStatus().equals(Book.BookStatus.ON_HOLD.name())){
+            if (next != null && next.equals(currAccount) && curBook.getStatus() == Book.BookStatus.AVAILABLE){
                 output.println(curBook.getTitle() + " has become available for you!" );
 
             }
@@ -152,7 +154,7 @@ public class LibrarySystem {
         // Check whether there is a hold queue
         if (book.getNextHolder() != null){
             currAccount.removeBorrowedBook(book);
-            book.setStatus(Book.BookStatus.ON_HOLD);
+            book.setStatus(Book.BookStatus.AVAILABLE);
             return ReturnResult.BOOK_ON_HOLD;
         }
         // Normal return operation
