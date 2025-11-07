@@ -30,7 +30,7 @@ public class AcceptanceTest {
         assertEquals(LibrarySystem.BorrowResult.BORROW_ALLOWED, system.verifyBorrowingAvailability(gatsby));
         system.borrowBook(gatsby);
         assertTrue(user1.isBookInList(gatsby));
-        assertEquals("CHECKED_OUT", gatsby.getStatus());
+        assertEquals(Book.BookStatus.CHECKED_OUT, gatsby.getStatus());
 
         // User1 logs out
         system.logout(new PrintWriter(System.out));
@@ -38,18 +38,18 @@ public class AcceptanceTest {
 
         // User2 logs in and sees book is checked out
         system.establishSession(user2);
-        assertEquals("CHECKED_OUT", gatsby.getStatus());
+        assertEquals(Book.BookStatus.CHECKED_OUT, gatsby.getStatus());
         assertFalse(user2.isBookInList(gatsby));
 
         // User1 logs back in and returns the book
         system.establishSession(user1);
         assertEquals(LibrarySystem.ReturnResult.BOOK_AVAILABLE, system.returnBook(gatsby));
         assertFalse(user1.isBookInList(gatsby));
-        assertEquals("AVAILABLE", gatsby.getStatus());
+        assertEquals(Book.BookStatus.AVAILABLE, gatsby.getStatus());
 
         // User2 should see the book available now
         system.establishSession(user2);
-        assertEquals("AVAILABLE", gatsby.getStatus());
+        assertEquals(Book.BookStatus.AVAILABLE, gatsby.getStatus());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AcceptanceTest {
         assertEquals(3, accounts.getAccountSize());
 
         // Valid login
-        Account validAccount = accounts.authenticate("username1", "password1");
+        Account validAccount = accounts.authenticate("alice", "pass123");
         assertNotNull(validAccount);
         system.establishSession(validAccount);
 

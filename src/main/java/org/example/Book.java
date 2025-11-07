@@ -11,7 +11,7 @@ public class Book {
 
     // Enum values to keep track of a books status
     public enum BookStatus {
-        AVAILABLE, CHECKED_OUT, ON_HOLD
+        AVAILABLE, CHECKED_OUT
     }
 
     Book(String title, String author){
@@ -24,8 +24,8 @@ public class Book {
         return title;
     }
 
-    public String getStatus() {
-        return status.name();
+    public BookStatus getStatus() {
+        return status;
     }
 
     void setStatus(BookStatus status){
@@ -52,4 +52,20 @@ public class Book {
     public void removeNextHolder(){
         holdQueue.poll();
     }
+
+    // Gets the status of a book for a specific user
+    public String getStatusForUser(Account account) {
+        if (!holdQueue.isEmpty()){
+            if(getNextHolder() == account && status == BookStatus.AVAILABLE){
+                return "Available";
+            } else{
+                return "On Hold";
+            }
+        } else if (status == BookStatus.CHECKED_OUT){
+            return "Checked Out";
+        } else {
+            return "Available";
+        }
+    }
 }
+

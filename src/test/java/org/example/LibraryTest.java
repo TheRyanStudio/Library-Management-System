@@ -35,9 +35,9 @@ public class LibraryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "0, Great Gatsby",
-            "9, Brave New World",
-            "19, The Picture of Dorian Gray"
+            "0, The Great Gatsby, F. Scott FitzGerald",
+            "9, Jane Eyre, Charlotte Brontë",
+            "19, Ulysses, James Joyce"
     })
     @DisplayName("Check library collection for valid books")
     void RESP_01_Test_2(int index, String expectedTitle) {
@@ -49,7 +49,7 @@ public class LibraryTest {
     @ValueSource(ints = {0, 9, 19})
     @DisplayName("Check book status for available")
     void RESP_01_Test_3(int index) {
-        assertEquals("AVAILABLE", collection.getBook(index).getStatus());
+        assertEquals(Book.BookStatus.AVAILABLE, collection.getBook(index).getStatus());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LibraryTest {
     @Test
     @DisplayName("Check library system for valid username and password")
     void RESP_03_Test_1() {
-        Account authenticated = accounts.authenticate("username2", "password2");
+        Account authenticated = accounts.authenticate("alice", "pass123");
         assertNotNull(authenticated); // Method returns null with no matching account object
     }
 
@@ -136,9 +136,9 @@ public class LibraryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1, Great Gatsby, F. Scott FitzGerald",
-            "10, Brave New World, Aldous Huxley",
-            "20, The Picture of Dorian Gray, Oscar Wilde"
+            "1, The Great Gatsby, F. Scott Fitzgerald",
+            "10, Jane Eyre, Charlotte Brontë",
+            "20, Ulysses, James Joyce"
     })
     @DisplayName("Check library system displays book collection")
     void RESP_06_Test_1(int index, String title, String author) {
@@ -150,7 +150,7 @@ public class LibraryTest {
         // Testing that the display contains the 1st, 10th and 20th book
         assertTrue(result.contains(index + ". Title: " + title));
         assertTrue(result.contains("Author: " + author));
-        assertTrue(result.contains("Status: AVAILABLE"));
+        assertTrue(result.contains("Status: Available"));
     }
 
     @Test
@@ -269,7 +269,7 @@ public class LibraryTest {
         system.borrowBook(testBook1);
 
         // Asserts to check if borrowBook correctly records and update book status
-        assertEquals(Book.BookStatus.CHECKED_OUT.name(), testBook1.getStatus());
+        assertEquals(Book.BookStatus.CHECKED_OUT, testBook1.getStatus());
         assertTrue(testAccount.isBookInList(testBook1));
     }
     @Test
@@ -290,7 +290,7 @@ public class LibraryTest {
         Book testBook1 = new Book("test", "test");
         collection.addBook(testBook1);
         testBook1.addHold(testAccount);
-        testBook1.setStatus(Book.BookStatus.ON_HOLD);
+        //testBook1.setStatus(Book.BookStatus.ON_HOLD); **************
         StringWriter output = new StringWriter();
 
         system.notifyAvailableBooks(new PrintWriter(output));

@@ -26,13 +26,9 @@ public class Collection {
         // Iterates through and displays the collection of books
         for (int i=0; i<collection.size(); i++) {
             Book book = getBook(i);
+            String userBookStatus = book.getStatusForUser(account);
 
-            // Checks if the book is available for the next holder
-            if (book.getNextHolder() != null && book.getNextHolder().equals(account)){
-                output.println(i +1 + ". Title: " + book.getTitle() + " Author: " + book.getAuthor() + " Status: " + "AVAILABLE");
-                continue;
-            }
-            output.println(i +1 + ". Title: " + book.getTitle() + " Author: " + book.getAuthor() + " Status: " + book.getStatus());
+            output.println(i +1 + ". Title: " + book.getTitle() + " Author: " + book.getAuthor() + " Status: " + userBookStatus);
         }
         output.flush();
     }
