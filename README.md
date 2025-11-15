@@ -1,7 +1,8 @@
-# COMP4004 Library Management System Assignment #1 – TDD
-By Ryan Johnson 101217600  
-Files: 'Account.java', 'AccountManager.java', 'Book.java', 'Collection.java', 'InitializeLibrary.java', 'LibrarySystem.java', 'Main.java'  
-Test Files: 'UnitTest.java', 'AcceptanceTest.java'  
+# COMP4004 Library Management System Assignment #1 – TDD 
+**By Ryan Johnson 101217600**   
+
+**Files:** `Account.java`, `AccountManager.java`, `Book.java`, `Collection.java`, `InitializeLibrary.java`, `LibrarySystem.java`, `Main.java`  
+**Test Files:** `AcceptanceTest.java`, `LibraryTest.java`  
 
 ---
 
@@ -77,14 +78,4 @@ Test Files: 'UnitTest.java', 'AcceptanceTest.java'
 
 - **A-TEST-02:** Initialization and Authentication with Error Handling  
   - Path: UC-01  
-  - Scenario: Valid login succeeds, invalid login rejected with error message and retry prompt  
-
----
-
-### TDD Commit Strategy
-- **R-TEST-XX:** Add unit tests for responsibility XX  
-- **R-CODE-X:** Implement minimal code to satisfy tests for responsibility X  
-- **REFAC:** Refactor code without changing behaviour  
-- **A-TEST-X:** Commit acceptance tests (two required)  
-
-**JUnit Naming Convention:**  
+  - Scenario: Valid login succeeds, invalid login rejected with error message and retry prompt 
