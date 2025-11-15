@@ -32,4 +32,12 @@ public class Collection {
         }
         output.flush();
     }
+    Book getBookByTitle(String title){
+        for (Book book: collection){
+            if(book.getTitle().equals(title)){
+                return book;
+            }
+        }
+        return null;
+    }
 }

@@ -33,7 +33,7 @@ public class AcceptanceTest {
         assertEquals(Book.BookStatus.CHECKED_OUT, gatsby.getStatus());
 
         // User1 logs out
-        system.logout(new PrintWriter(System.out));
+        system.logout();
         assertNull(system.getCurrAccount());
 
         // User2 logs in and sees book is checked out
@@ -43,7 +43,7 @@ public class AcceptanceTest {
 
         // User1 logs back in and returns the book
         system.establishSession(user1);
-        assertEquals(LibrarySystem.ReturnResult.BOOK_AVAILABLE, system.returnBook(gatsby));
+        assertEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(gatsby));
         assertFalse(user1.isBookInList(gatsby));
         assertEquals(Book.BookStatus.AVAILABLE, gatsby.getStatus());
 
@@ -77,8 +77,8 @@ public class AcceptanceTest {
 
         // Logout
         StringWriter logoutOutput = new StringWriter();
-        system.logout(new PrintWriter(logoutOutput));
-        assertTrue(logoutOutput.toString().contains("You have logged out."));
+        system.logout();
+        assertTrue("You have logged out.".contains(logoutOutput.toString()));
         assertNull(system.getCurrAccount());
 
         // Invalid login

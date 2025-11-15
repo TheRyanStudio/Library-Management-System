@@ -17,7 +17,7 @@ public class LibrarySystem {
 
     // Enum values to handle potential outcomes of returning a book
     public enum ReturnResult {
-        BOOK_AVAILABLE, NO_BOOKS_TO_RETURN, BOOK_ON_HOLD
+        RETURN_ALLOWED, NO_BOOKS_TO_RETURN
     }
 
     public void promptForPassword(PrintWriter output){
@@ -50,26 +50,28 @@ public class LibrarySystem {
 
     // Returns the corresponding borrowing book result
     public BorrowResult verifyBorrowingAvailability(Book book) {
-        // Check for the current account already in the holding queue, except for the next holder when the book is available for them to borrow
-        if (book.isAccountInQueue(currAccount) && !((book.getNextHolder() == currAccount) && (book.getStatus() == Book.BookStatus.AVAILABLE))) {
-            return BorrowResult.ALREADY_ON_HOLD;
+
+        // Check for the book already in the borrowers account
+        if (currAccount.isBookInList(book)) {
+            return BorrowResult.ALREADY_BORROWED;
         }
         // Check for max borrowed book size
         if (currAccount.getBorrowedBooks().size() >= 3) {
             return BorrowResult.MAX_BOOKS_REACHED;
         }
-        // Check for the book already in the borrowers account
-        if (currAccount.isBookInList(book)) {
-            return BorrowResult.ALREADY_BORROWED;
-        }
-        // Check for book is already checked out
-        if (book.getStatus() == Book.BookStatus.CHECKED_OUT) {
+        // Check for book is checked out by someone else
+        if (book.getStatus() == Book.BookStatus.CHECKED_OUT && !currAccount.isBookInList(book)) {
             return BorrowResult.UNAVAILABLE;
         }
-        // Check if the book is on hold by another account
+        // Check for the user in queue but not the next holder
+        if (book.isAccountInQueue(currAccount) && (book.getNextHolder() != currAccount)) {
+            return BorrowResult.ALREADY_ON_HOLD;
+        }
+        // Check if the book is reserved for someone else
         if (book.getStatus() == Book.BookStatus.AVAILABLE && book.getNextHolder() != null && !book.getNextHolder().equals(currAccount)) {
             return BorrowResult.UNAVAILABLE;
         }
+
         return BorrowResult.BORROW_ALLOWED;
     }
 
@@ -77,7 +79,7 @@ public class LibrarySystem {
     public void displayBorrowingMessages(BorrowResult result, PrintWriter output){
         switch (result){
             case ALREADY_ON_HOLD:
-                output.println("You already have a hold on this book. ");
+                output.println("You are already in the hold queue for this book. ");
                 break;
             case MAX_BOOKS_REACHED:
                 output.println("You already have 3 books borrowed. This book will be placed on hold for you. ");
@@ -114,20 +116,20 @@ public class LibrarySystem {
         book.addHold(currAccount);
     }
 
-    public void notifyAvailableBooks(PrintWriter output) {
+    public boolean notifyAvailableBooks() {
 
         // Loop through the collection of books checking for the next holder to match the current account
         for (int i = 0; i < collection.getCollectionSize(); i++){
             Book curBook = collection.getBook(i);
             Account next = curBook.getNextHolder();
 
-            // If the next holder matches the current account and the book status is available notify the current account
-            if (next != null && next.equals(currAccount) && curBook.getStatus() == Book.BookStatus.AVAILABLE){
-                output.println(curBook.getTitle() + " has become available for you!" );
-
+            // If the next holder matches the current account and the book status is available and the current account can borrow notify the current account
+            if (next != null && next.equals(currAccount) && curBook.getStatus() == Book.BookStatus.AVAILABLE && verifyBorrowingAvailability(curBook) == BorrowResult.BORROW_ALLOWED){
+                System.out.println(curBook.getTitle() + " has become available for you!" );
+                return true;
             }
         }
-        output.flush();
+        return false;
     }
 
     // Prompt confirmation message after account borrows a book
@@ -151,33 +153,36 @@ public class LibrarySystem {
         if (currAccount.getBorrowedBooks().isEmpty()) {
             return ReturnResult.NO_BOOKS_TO_RETURN;
         }
-        // Check whether there is a hold queue
-        if (book.getNextHolder() != null){
-            currAccount.removeBorrowedBook(book);
-            book.setStatus(Book.BookStatus.AVAILABLE);
-            return ReturnResult.BOOK_ON_HOLD;
-        }
         // Normal return operation
         currAccount.removeBorrowedBook(book);
         book.setStatus(Book.BookStatus.AVAILABLE);
-        return ReturnResult.BOOK_AVAILABLE;
+        return ReturnResult.RETURN_ALLOWED;
 
     }
-    public void displayReturnMessages(ReturnResult result, PrintWriter output){
-        if (result == ReturnResult.NO_BOOKS_TO_RETURN){
-            output.println("You have no books to return.");
-            output.flush();
+
+    // Test-only helper: Used for BDD verification of return message outcome
+    public String getReturnMessage(ReturnResult result) {
+        if (result == ReturnResult.NO_BOOKS_TO_RETURN) {
+            return "You have no books to return.";
+        } else if (result == ReturnResult.RETURN_ALLOWED) {
+            return "Book returned successfully.";
         }
+        return "";
     }
+
+    public void displayReturnMessages(ReturnResult result, PrintWriter output){
+            output.println(getReturnMessage(result));
+            output.flush();
+    }
+
+
     // Prompt message after user returns a book
     public void promptReturnConfirmation(Book book, PrintWriter output){
         output.print("You would like to return " + book.getTitle() + " by " + book.getAuthor() + ". Enter (1) to confirm ");
         output.flush();
     }
 
-    public void logout(PrintWriter output){
+    public void logout(){
         currAccount = null; // Clear the current user
-        output.println("You have logged out.");
-        output.flush();
     }
 }
