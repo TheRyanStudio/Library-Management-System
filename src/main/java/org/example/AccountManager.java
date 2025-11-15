@@ -26,4 +26,12 @@ public class AccountManager {
 
     public void addAccount(Account account){accounts.add(account);}
 
+    public Account getAccountByUsername(String username){
+        for (Account account: accounts){
+            if(username.equals(account.getUsername())){
+                return account;
+            }
+        }
+        return null;
+    }
 }

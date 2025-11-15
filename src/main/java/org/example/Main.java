@@ -38,7 +38,7 @@ public class Main {
             // Establish session
             system.establishSession(authenticated);
             output.println("Login successful. Welcome " + authenticated.getUsername() + "!");
-            system.notifyAvailableBooks(output);
+            system.notifyAvailableBooks();
 
             boolean activeSession = true;
             while (activeSession){
@@ -103,14 +103,13 @@ public class Main {
                         if (!confirmReturn.equals("1")) break;
 
                         // Handles return book logic and displays message based on scenario
-                        LibrarySystem.ReturnResult returnResult = system.returnBook(bookToReturn);
-                        if (returnResult == LibrarySystem.ReturnResult.BOOK_AVAILABLE) {
-                            output.println("Book returned successfully.");
-                        }
+                        system.returnBook(bookToReturn);
+                        system.displayReturnMessages(LibrarySystem.ReturnResult.RETURN_ALLOWED, output);
                         break;
 
                     case "3":
-                        system.logout(output);
+                        system.logout();
+                        output.println("You are logged out. ");
                         activeSession = false;
                         break;
                 }

@@ -290,11 +290,8 @@ public class LibraryTest {
         Book testBook1 = new Book("test", "test");
         collection.addBook(testBook1);
         testBook1.addHold(testAccount);
-        //testBook1.setStatus(Book.BookStatus.ON_HOLD); **************
-        StringWriter output = new StringWriter();
 
-        system.notifyAvailableBooks(new PrintWriter(output));
-        assertTrue(output.toString().contains("has become available for you!"));
+        assertTrue(system.notifyAvailableBooks());
     }
     @Test
     @DisplayName("Check for do not notify of available held books")
@@ -305,10 +302,8 @@ public class LibraryTest {
         collection.addBook(testBook1);
         testBook1.addHold(testAccount);
         testBook1.setStatus(Book.BookStatus.CHECKED_OUT);
-        StringWriter output = new StringWriter();
 
-        system.notifyAvailableBooks(new PrintWriter(output));
-        assertTrue(output.toString().isBlank());
+        assertFalse(system.notifyAvailableBooks());
     }
 
     @Test
@@ -353,28 +348,14 @@ public class LibraryTest {
     }
 
     @Test
-    @DisplayName("Check library system handles return with a hold")
+    @DisplayName("Check library system handles normal return")
     void RESP_17_Test_2(){
-        // Scenario where a borrowed book is on hold
-        testAccount = new Account("test1", "test2");
-        Account testHoldAccount = new Account("test", "test");
-        Book book1 = new Book("test", "test");
-        testAccount.addBorrowedBook(book1);
-        book1.addHold(testHoldAccount);
-        system.establishSession(testAccount);
-
-        assertEquals(LibrarySystem.ReturnResult.BOOK_ON_HOLD, system.returnBook(book1));
-    }
-
-    @Test
-    @DisplayName("Check library system handles return with no hold")
-    void RESP_17_Test_3(){
         testAccount = new Account("test1", "test2");
         Book book1 = new Book("test", "test");
         testAccount.addBorrowedBook(book1);
         system.establishSession(testAccount);
 
-        assertEquals(LibrarySystem.ReturnResult.BOOK_AVAILABLE, system.returnBook(book1));
+        assertEquals(LibrarySystem.ReturnResult.RETURN_ALLOWED, system.returnBook(book1));
     }
 
     @ParameterizedTest
@@ -400,22 +381,12 @@ public class LibraryTest {
     }
 
     @Test
-    @DisplayName("Check library system for successful logout message")
+    @DisplayName("Check library system for successful logout")
     void RESP_20_Test_1(){
         testAccount = new Account("test", "test");
         system.establishSession(testAccount);
         StringWriter output = new StringWriter();
-        system.logout(new PrintWriter(output));
-
-        assertTrue(output.toString().contains("You have logged out."));
-    }
-    @Test
-    @DisplayName("Check library system for successful logout")
-    void RESP_20_Test_2(){
-        testAccount = new Account("test", "test");
-        system.establishSession(testAccount);
-        StringWriter output = new StringWriter();
-        system.logout(new PrintWriter(output));
+        system.logout();
 
         assertNull(system.getCurrAccount());
     }
