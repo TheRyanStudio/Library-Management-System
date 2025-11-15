@@ -1,103 +1,90 @@
-# COMP4004 Library Management System Assignment #1 – TDD  
-**By Ryan Johnson 101217600**  
-
-**Files:** `Account.java`, `AccountManager.java`, `Book.java`, `Collection.java`, `InitializeLibrary.java`, `LibrarySystem.java`, `Main.java`  
-**Test Files:** `UnitTest.java`, `AcceptanceTest.java`  
-
----
-
-## TDD Testing
-
-### 1. RESP-01_system_initialization
-Test that the system initializes correctly with the predefined books and users, demonstrating that:  
-- 20 books are created with unique titles and authors  
-- 3 borrower accounts are created with usernames and passwords  
-- All books are initially available  
-- All borrowers have zero books  
-
-**Assert:** System initialization is correct  
-- Number of books and borrowers is asserted  
-- Book availability is asserted  
-- Borrower accounts start with zero books  
+# COMP4004 Library Management System Assignment #1 – TDD
+By Ryan Johnson 101217600  
+Files: 'Account.java', 'AccountManager.java', 'Book.java', 'Collection.java', 'InitializeLibrary.java', 'LibrarySystem.java', 'Main.java'  
+Test Files: 'UnitTest.java', 'AcceptanceTest.java'  
 
 ---
 
-### 2. RESP-02_user_authentication
-Test that users can log in correctly, demonstrating that:  
-- Valid username/password allows login  
-- Invalid username/password is rejected  
-- Session is established upon successful login  
-- Notifications for held books are displayed  
+### System Functionality
+- User authentication with username/password  
+- Book collection display  
+- Single book borrowing with eligibility validation  
+- Single book return processing  
+- Single book hold placement  
+- Real-time book availability tracking  
+- Session management  
+- Text-based system  
 
-**Assert:** Authentication behaves correctly  
-- Successful login sets session correctly  
-- Invalid login prompts retry  
-- Held book notifications are asserted  
+### Borrowing Rules
+- Single-item transactions only  
+- Maximum 3 books per borrower  
+- 14-day borrowing period (YYYY-MM-DD format)  
+- Only available books can be borrowed  
+- No renewals  
 
----
+### Hold System Rules
+- FIFO hold queue  
+- One hold per borrower per book  
+- Holds only on unavailable books  
+- Books on hold cannot be borrowed by others  
+- Notifications sent when books become available  
+- Borrowers at 3-book limit may place holds but cannot borrow  
 
-### 3. RESP-03_borrow_book
-Test borrowing a single available book, demonstrating that:  
-- Borrower can borrow a book if under 3-book limit  
-- Book availability updates to Checked Out  
-- Borrower account updates correctly  
-- Due date is calculated (14 days)  
-
-**Assert:** Borrowing behaves correctly  
-- Borrower’s book count increases  
-- Book status updates are asserted  
-- Borrowing confirmation includes correct due date  
-
----
-
-### 4. RESP-04_place_hold
-Test placing a hold on unavailable books, demonstrating that:  
-- Borrower can place hold if book is checked out  
-- Only one hold per borrower per book  
-- FIFO queue ordering is maintained  
-- Notifications sent when book becomes available  
-
-**Assert:** Hold system behaves correctly  
-- Holds are recorded and queued correctly  
-- Only notified borrower can borrow reserved book  
-- Queue advances properly when books are returned  
+### System Initialization
+- Starts with 20 books and 3 borrower accounts  
+- Data is in-memory only; resets on application restart  
 
 ---
 
-### 5. RESP-05_borrowing_limit_interactions
-Test interactions between borrowing limits and holds, demonstrating that:  
-- Users at 3-book limit cannot borrow more  
-- Users at limit can still place holds  
-- Borrower’s capacity increases after returning a book  
-- Notifications are sent when held books become available  
+## Responsibilities and TDD Cycle
 
-**Assert:** Borrowing limit enforcement is correct  
-- Borrowing is blocked at limit  
-- Holds are allowed at limit  
-- Borrowing capacity updates after return  
-- Notification to next holder is asserted  
+### RESP-01: System book collection initialization
+- Ensure collection is created with 20 unique books  
+- Unit tests validate initial availability and book data  
+
+### RESP-02: System user accounts initialization
+- Ensure 3 borrower accounts created  
+- Unit tests validate usernames, passwords, and zero borrowed books  
+
+### RESP-03: User Authentication
+- Validate username/password and establish session  
+- Tests include valid and invalid credentials  
+
+### RESP-04: Borrow Book Eligibility
+- Check if borrower has < 3 books  
+- Validate selected book is available  
+- Test borrowing transaction updates borrower and book status  
+
+### RESP-05: Place Hold on Book
+- Allow placing a hold if book unavailable  
+- Enforce one hold per borrower per book  
+- Notify correct borrower when book becomes available  
+
+### RESP-06: Return Book
+- Update book status to Available or On Hold  
+- Remove book from borrower account  
+- Notify next borrower in queue if hold exists  
+
+### RESP-07: Session Management
+- Maintain current user session until logout  
+- Clear session on logout  
+- Tests include login → operations → logout workflow  
+
+### RESP-08: Acceptance Tests
+- **A-TEST-01:** Multi-User Borrow and Return with Availability Validated  
+  - Path: UC-01 → UC-02 → UC-04 → UC-01 → UC-02 → UC-04 → UC-01 → UC-03 → UC-04 → UC-01 → UC-02 → UC-04  
+  - Scenario: User1 borrows a book, User2 sees it checked out, User1 returns it, User2 sees availability  
+
+- **A-TEST-02:** Initialization and Authentication with Error Handling  
+  - Path: UC-01  
+  - Scenario: Valid login succeeds, invalid login rejected with error message and retry prompt  
 
 ---
 
-### 6. RESP-06_return_book
-Test returning a book, demonstrating that:  
-- Book status updates to Available or On Hold  
-- Borrower account updates correctly  
-- Hold notifications are sent to the next borrower  
+### TDD Commit Strategy
+- **R-TEST-XX:** Add unit tests for responsibility XX  
+- **R-CODE-X:** Implement minimal code to satisfy tests for responsibility X  
+- **REFAC:** Refactor code without changing behaviour  
+- **A-TEST-X:** Commit acceptance tests (two required)  
 
-**Assert:** Returns behave correctly  
-- Returned book availability is asserted  
-- Borrower account updated correctly  
-- Notifications to next holder are asserted  
-
----
-
-### 7. RESP-07_no_books_borrowed_scenario
-Test system behaviour when borrower has no books, demonstrating that:  
-- System handles return operation with empty borrowed list  
-- No errors occur when trying to return nothing  
-- Book availability remains correct  
-
-**Assert:** System handles empty returns correctly  
-- Attempted return of no books is handled gracefully  
-- Book statuses remain correct  
+**JUnit Naming Convention:**  
