@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Libre Baskerville', serif; background: #f4ecd8; margin: 0; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        h1 { color: #5a3e2b; text-shadow: 1px 1px 0 #c9a66b; }
+        #logoutButton { padding: 8px 20px; border: none; border-radius: 6px; background-color: #8b5e3c; color: white; cursor: pointer; transition: background 0.3s; }
+        #logoutButton:hover { background-color: #6a472d; }
+        .card { background: #fff8e1; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 20px; border: 2px solid #d2b48c; }
+        h2 { margin-top: 0; color: #5a3e2b; }
+        table { width: 100%; border-collapse: collapse; background-color: #fdf4e3; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #d2b48c; }
+        th { background-color: #f2e1c4; }
+        button { padding: 6px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-right: 5px; transition: background 0.3s; }
+        .borrowButton { background-color: #6a8b3c; color: white; }
+        .borrowButton:hover { background-color: #53682f; }
+        .returnButton { background-color: #3d6a8b; color: white; }
+        .returnButton:hover { background-color: #2c4b5f; }
+        .holdButton { background-color: #b3864b; color: white; }
+        .holdButton:hover { background-color: #8c6233; }
+        .status { padding: 4px 8px; border-radius: 6px; font-weight: bold; text-align: center; }
+        .Available { background-color: #6a8b3c; color: white; }
+        .CheckedOut { background-color: #8b3c3c; color: white; }
+        .OnHold { background-color: #b3864b; color: white; }
+        #messages { margin-top: 20px; }
+        .success { color: #53682f; font-weight: bold; }
+        .error { color: #8b3c3c; font-weight: bold; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Library Dashboard</h1>
+    <button id="logoutButton">Logout</button>
+</header>
+
+<div id="notifications" class="card">
+    <h2>Notifications</h2>
+    <ul id="notificationList"></ul>
+</div>
+
+<div id="messages" class="card">
+    <p class="success" id="successMessage"></p>
+    <p class="error" id="errorMessage"></p>
+</div>
+
+<div id="userBorrowedSection" class="card">
+    <h2>User Borrowed Books</h2>
+    <table id="userBorrowedTable">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Due Date</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div id="borrowSection" class="card">
+    <h2>Borrow a Book</h2>
+    <p>Current borrowed books: <span id="borrowedCount">0</span>/3</p>
+    <table id="booksTable">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+    const borrowedCountSpan = document.getElementById('borrowedCount');
+    const booksTableBody = document.querySelector('#booksTable tbody');
+    const borrowedBooksTableBody = document.querySelector('#userBorrowedTable tbody');
+    const notificationList = document.getElementById('notificationList');
+    const logoutButton = document.getElementById('logoutButton');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let currentUser = null;
+    let books = [];
+    let currentBorrowedBooks = [];
+
+    async function fetchUser() {
+        try {
+            const res = await fetch('/api/user');
+            if (!res.ok) throw new Error('No user logged in');
+            const data = await res.json();
+            currentUser = data.username;
+            currentBorrowedBooks = data.borrowedBooks || [];
+            borrowedCountSpan.textContent = data.borrowedBooks.length;
+            displayBorrowedBooks();
+            if (data.notifications) renderNotifications(data.notifications);
+
+        } catch (err) {
+            console.error(err);
+            window.location.href = 'index.html';
+        }
+    }
+
+    async function fetchBooks() {
+        try {
+            const res = await fetch('/api/books');
+            books = await res.json();
+            displayBooks();
+        } catch (err) {
+            console.error(err);
+            errorMessage.textContent = 'Failed to load books';
+        }
+    }
+
+    function displayBooks() {
+        booksTableBody.innerHTML = '';
+        books.forEach(book => {
+            const tr = document.createElement('tr');
+
+            let statusClass = '';
+            if (book.status === 'Available') statusClass = 'Available';
+            else if (book.status === 'Checked Out') statusClass = 'CheckedOut';
+            else if (book.status === 'On Hold') statusClass = 'OnHold';
+
+            tr.innerHTML = `
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td><span class="status ${statusClass}">${book.status}</span></td>
+                <td>
+                    <button class="borrowButton">Borrow</button>
+                    <button class="holdButton">Place Hold</button>
+                    <button class="returnButton">Return</button>
+                </td>
+            `;
+
+            tr.querySelector('.borrowButton').addEventListener('click', () => borrowBook(book));
+            tr.querySelector('.holdButton').addEventListener('click', () => placeHold(book));
+            tr.querySelector('.returnButton').addEventListener('click', () => returnBook(book));
+
+            booksTableBody.appendChild(tr);
+        });
+    }
+
+    function displayBorrowedBooks() {
+        borrowedBooksTableBody.innerHTML = '';
+        currentBorrowedBooks.forEach(book => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${'2025-12-05'}</td>
+            `;
+            borrowedBooksTableBody.appendChild(tr);
+        });
+    }
+
+    async function borrowBook(book) {
+        successMessage.textContent = '';
+        errorMessage.textContent = '';
+        try {
+            const res = await fetch('/api/borrow', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: book.title })
+            });
+            const data = await res.json();
+            if (data.success) {
+                successMessage.textContent = `Borrowed "${book.title}" successfully! Due: 2025-12-05`;
+            } else {
+                errorMessage.textContent = `Cannot borrow "${book.title}": ${data.reason}`;
+                if (data.holdPlaced) successMessage.textContent = 'Hold placed automatically.';
+            }
+
+            await fetchBooks();
+            await fetchUser();
+            await fetchNotifications();
+
+        } catch (err) {
+            console.error(err);
+            errorMessage.textContent = 'Error connecting to server';
+        }
+    }
+
+    async function returnBook(book) {
+        successMessage.textContent = '';
+        errorMessage.textContent = '';
+        try {
+            const res = await fetch('/api/return', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: book.title })
+            });
+            const data = await res.json();
+            if (data.success) successMessage.textContent = `Returned "${book.title}" successfully`;
+            else errorMessage.textContent = data.message;
+            await fetchBooks();
+            await fetchUser();
+            await fetchNotifications();
+        } catch (err) {
+            console.error(err);
+            errorMessage.textContent = 'Error connecting to server';
+        }
+    }
+
+    async function placeHold(book) {
+        successMessage.textContent = '';
+        errorMessage.textContent = '';
+        try {
+            const res = await fetch('/api/place-hold', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: book.title })
+            });
+            const data = await res.json();
+            if (data.success) successMessage.textContent = `Hold placed on "${book.title}"`;
+            else errorMessage.textContent = 'Failed to place hold';
+            await fetchBooks();
+            await fetchNotifications();
+        } catch (err) {
+            console.error(err);
+            errorMessage.textContent = 'Error connecting to server';
+        }
+    }
+
+    function renderNotifications(notifications) {
+        notificationList.innerHTML = '';
+        notifications.forEach(note => {
+            const li = document.createElement('li');
+            li.textContent = `"${note.title}" by ${note.author} is now available`;
+            notificationList.appendChild(li);
+        });
+    }
+
+    async function fetchNotifications() {
+        try {
+            const res = await fetch('/api/notifications');
+            if (!res.ok) return;
+            const data = await res.json();
+            renderNotifications(data.notifications);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    logoutButton.addEventListener('click', async () => {
+        try { await fetch('/api/logout', { method: 'POST' }); } catch (err) { console.error(err); }
+        window.location.href = 'index.html';
+    });
+
+    async function init() {
+        await fetchUser();
+        await fetchBooks();
+        await fetchNotifications();
+    }
+
+    init();
+</script>
+</body>
+</html>

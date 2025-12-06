@@ -1,0 +1,20 @@
+{
+  "name": "Library System",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cypress.config.js",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^15.7.1"
+  }
+}
