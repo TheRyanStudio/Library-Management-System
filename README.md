@@ -10,4 +10,4 @@
 ### Headless Mode
 npm run cypress:run
 ## Which AI(s) were used, if they were used 
-I used ChatGPT to assist with converting my business logic to Node.js/Express. I also used it to build my website.
+I used ChatGPT to assist with converting my business logic to Node.js/Express. I also used it to build my web front end.
