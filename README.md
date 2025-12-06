@@ -1,4 +1,4 @@
-# COMP4004 Library Management System Assignment #3 - Chpress UI Testing  
+# COMP4004 Library Management System Assignment #3 - Cypress UI Testing  
 **By Ryan Johnson 101217600**  
 
 ## Setup Instructions
