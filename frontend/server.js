@@ -5,6 +5,15 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
+function resetLibrary() {
+    currAccount = null;
+    accountManager.accounts.forEach(acc => acc.borrowedBooks = []);
+    collection.books.forEach(book => {
+        book.status = 'AVAILABLE';
+        book.holdQueue = [];
+    });
+}
+
 // --- In-memory Data Store ---
 let currAccount = null;
 
@@ -255,6 +264,7 @@ app.get('/api/notifications', (req, res) => {
 app.post('/api/reset', (req, res) => {
     // Clear current logged-in account
     currAccount = null;
+    resetLibrary();
 
     // Reset borrowed books for all accounts
     accountManager.accounts.forEach(acc => {
