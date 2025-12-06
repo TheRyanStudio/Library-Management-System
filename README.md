@@ -1,10 +1,10 @@
-# COMP4004 Library Management System Assignment #3 - Chpress UI Testing  
+# COMP4004 Library Management System Assignment #3 - Cypress UI Testing  
 **By Ryan Johnson 101217600**  
 
 ## Setup Instructions
-1. Install dependencies: npm install
+1. Install dependencies: npm install inside the frontend folder
 ## Running the Application
-1. Start the server: npm start
+1. Start the server: npm start inside the frontend folder
 2. Open browser: http://localhost:3000
 ## Running Cypress Tests
 ### Headless Mode
