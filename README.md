@@ -1,4 +1,4 @@
-# COMP4004 Library Management System Assignment #3 - Cypress UI Testing  
+# Library Management System v.3 - Cypress UI Testing  
 **By Ryan Johnson**  
 
 ## What's New
