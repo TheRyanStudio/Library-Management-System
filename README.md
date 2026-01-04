@@ -1,4 +1,4 @@
-# COMP4004 Library Management System Assignment #2 - BDD  
+# Library Management System v.2 - BDD  
 **By Ryan Johnson**  
 
 **Files:** `Account.java`, `AccountManager.java`, `Book.java`, `Collection.java`, `InitializeLibrary.java`, `LibrarySystem.java`, `Main.java`  
