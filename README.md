@@ -2,11 +2,11 @@
 **By Ryan Johnson**  
 
 ## What's New
-Converted Java business logic into a Node.js / Express REST API
-Added a basic HTML/JavaScript web UI to interact with the system
-Tests now simulate real user actions (clicks, form input, visible messages)
-Business rules stay the same; testing moves from logic-level to UI-level
-Project runs as a single-user web application with simple session handling
+1. Converted Java business logic into a Node.js / Express REST API
+2. Added a basic HTML/JavaScript web UI to interact with the system
+3. Tests now simulate real user actions (clicks, form input, visible messages)
+4. Business rules stay the same; testing moves from logic-level to UI-level
+5. Project runs as a single-user web application with simple session handling
 
 ## Setup Instructions
 1. Install dependencies: npm install inside the frontend folder
